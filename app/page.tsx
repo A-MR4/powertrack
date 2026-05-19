@@ -30,6 +30,7 @@ interface BackendReading {
 export default function Home() {
   const [backendReadings, setBackendReadings] = useState<BackendReading[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentTime, setCurrentTime] = useState('');
 
   useEffect(() => {
     async function loadReadings() {
@@ -48,6 +49,52 @@ export default function Home() {
     }
 
     loadReadings();
+  }, []);
+
+  useEffect(() => {
+    setCurrentTime(new Date().toLocaleTimeString('es-ES'));
+    const interval = setInterval(() => {
+      setCurrentTime(new Date().toLocaleTimeString('es-ES'));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    // WebSocket connection to receive new readings in real-time
+    let ws: WebSocket | null = null;
+    try {
+      ws = new WebSocket('ws://localhost:3001');
+
+      ws.onopen = () => {
+        console.log('Connected to WS server');
+      };
+
+      ws.onmessage = (ev) => {
+        try {
+          const msg = JSON.parse(ev.data as string);
+          if (msg?.type === 'new-reading' && msg.reading) {
+            setBackendReadings((prev) => {
+              // append new reading; keep ordering by timestamp
+              const next = [...prev, msg.reading];
+              next.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+              return next;
+            });
+          }
+        } catch (e) {
+          console.error('WS message parse error', e);
+        }
+      };
+
+      ws.onclose = () => console.log('WS connection closed');
+      ws.onerror = (err) => console.error('WS error', err);
+    } catch (e) {
+      console.warn('Could not create WebSocket connection', e);
+    }
+
+    return () => {
+      if (ws) ws.close();
+    };
   }, []);
 
   const { 
@@ -93,7 +140,6 @@ export default function Home() {
           time: new Date(reading.timestamp).toLocaleTimeString('es-ES', {
             hour: '2-digit',
             minute: '2-digit',
-            timeZone: 'UTC',
           }),
           consumption: reading.consumption,
           timestamp: new Date(reading.timestamp),
@@ -126,7 +172,7 @@ export default function Home() {
             </div>
             <div className="text-right">
               <p className="text-sm text-blue-100">Última actualización</p>
-              <p className="text-lg font-semibold">{new Date().toLocaleTimeString('es-ES')}</p>
+              <p className="text-lg font-semibold">{currentTime}</p>
             </div>
           </div>
         </div>

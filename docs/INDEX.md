@@ -3,10 +3,10 @@
 ## Executive Overview
 
 PowerTrack is a web-based energy consumption forecast platform that combines:
-- 🔌 IoT hardware (ESP32 + ACS712)
-- 🤖 predictive modeling with a cyclic regression engine
-- 💻 interactive dashboard built with Next.js + React
-- 💾 local JSON data persistence for hourly measurements
+- IoT hardware (ESP32 + ACS712)
+- Predictive modeling with a cyclic regression engine
+- An interactive dashboard built with Next.js and React
+- Local JSON data persistence for hourly measurements
 
 The platform helps users monitor and optimize electricity usage with hourly history, peak detection, and alerts.
 
@@ -77,29 +77,29 @@ npm start
 
 ## Main Components
 
-### ConsumptionChart 📊
-- File: `components/ConsumptionChart.tsx`
-- Purpose: Show 24-hour historical consumption
+### ConsumptionChart
+File: `components/ConsumptionChart.tsx`
+Purpose: Show 24-hour historical consumption
 
-### PredictionChart 🔮
-- File: `components/PredictionChart.tsx`
-- Purpose: Show hourly forecast aligned with the historical axis
+### PredictionChart
+File: `components/PredictionChart.tsx`
+Purpose: Show hourly forecast aligned with the historical axis
 
-### StatCard / StatsGrid 📈
-- File: `components/StatCard.tsx`
-- Purpose: Display current, average, peak, and predicted values
+### StatCard / StatsGrid
+File: `components/StatCard.tsx`
+Purpose: Display current, average, peak, and predicted values
 
-### PeakAlert & Recommendations ⚠️
-- File: `components/PeakAlert.tsx`
-- Purpose: Alert on consumption peaks and provide savings tips
+### PeakAlert & Recommendations
+File: `components/PeakAlert.tsx`
+Purpose: Alert on consumption peaks and provide savings tips
 
-### RecentReadings 📋
-- File: `components/RecentReadings.tsx`
-- Purpose: Display the last four readings with trend indicators
+### RecentReadings
+File: `components/RecentReadings.tsx`
+Purpose: Display the last four readings with trend indicators
 
-### ModelInfo 🧠
-- File: `components/ModelInfo.tsx`
-- Purpose: Display model parameters and accuracy metrics
+### ModelInfo
+File: `components/ModelInfo.tsx`
+Purpose: Display model parameters and accuracy metrics
 
 ---
 

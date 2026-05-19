@@ -69,7 +69,7 @@ export function PeakAlert({ peaks }: PeakAlertProps) {
               <div key={index} className="flex items-center justify-between text-xs">
                 <span className="font-mono">{String(peak.hour).padStart(2, '0')}:00</span>
                 <span className="font-semibold">{peak.consumption.toFixed(2)} kW</span>
-                <div className="w-24 bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                <div className="w-24 bg-gray-800 rounded-full h-1.5 overflow-hidden">
                   <div 
                     className={`h-full ${
                       peak.intensity > 1.5 

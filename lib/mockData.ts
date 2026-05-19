@@ -38,15 +38,10 @@ export function generateMockConsumptionData(): ConsumptionData[] {
     3.1,  // 23h
   ];
 
-  // Agregar variabilidad realista a los datos
   consumptionPattern.forEach((baseConsumption, hour) => {
-    // Agregar ruido aleatorio (±15%)
-    const noise = (Math.random() - 0.5) * 0.3 * baseConsumption;
-    const consumption = Math.max(0.5, baseConsumption + noise);
-    
     data.push({
       time: hour,
-      consumption: Math.round(consumption * 100) / 100,
+      consumption: Math.round(baseConsumption * 100) / 100,
     });
   });
 
@@ -57,33 +52,28 @@ export function generateMockConsumptionData(): ConsumptionData[] {
  * Simula lecturas recientes del sensor (últimas 4 horas)
  */
 export function getRecentReadings() {
-  const now = new Date();
-  const currentHour = now.getHours();
-  const readings = [];
-
-  for (let i = 3; i >= 0; i--) {
-    const time = new Date(now.getTime() - i * 60 * 60 * 1000);
-    const hour = time.getHours();
-    
-    // Usar patrón base + ruido
-    const basePattern = [
-      2.1, 1.8, 1.5, 1.3, 1.4, 1.6, 3.2, 4.5, 5.2, 4.8,
-      3.9, 3.5, 3.8, 4.1, 3.9, 3.6, 3.4, 3.7, 4.9, 5.8,
-      6.2, 5.5, 4.3, 3.1
-    ];
-    
-    const baseConsumption = basePattern[hour] || 3.5;
-    const noise = (Math.random() - 0.5) * 0.3 * baseConsumption;
-    const consumption = Math.max(0.5, baseConsumption + noise);
-
-    readings.push({
-      time: time.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
-      consumption: Math.round(consumption * 100) / 100,
-      timestamp: time,
-    });
-  }
-
-  return readings;
+  return [
+    {
+      time: '09:00',
+      consumption: 3.2,
+      timestamp: new Date('2026-01-01T09:00:00Z'),
+    },
+    {
+      time: '10:00',
+      consumption: 3.8,
+      timestamp: new Date('2026-01-01T10:00:00Z'),
+    },
+    {
+      time: '11:00',
+      consumption: 4.1,
+      timestamp: new Date('2026-01-01T11:00:00Z'),
+    },
+    {
+      time: '12:00',
+      consumption: 4.5,
+      timestamp: new Date('2026-01-01T12:00:00Z'),
+    },
+  ];
 }
 
 /**

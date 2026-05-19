@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PowerTrack",
-  description: "Track your ",
+  title: "⚡ PowerTrack",
+  description: "Track your energy consumption with PowerTrack",
 };
 
 export default function RootLayout({

@@ -2,11 +2,7 @@
 
 ## Executive Summary
 
-PowerTrack is a smart energy consumption dashboard with predictive analytics. It combines:
-- 🔌 IoT hardware (ESP32 + ACS712)
-- 🤖 machine learning and forecasting
-- 💻 a dashboard built with Next.js + React
-- 💾 local JSON persistence for readings
+PowerTrack is a smart energy consumption dashboard with predictive analytics. It combines IoT hardware, predictive models, and a web-based dashboard for visualizing consumption and forecasts.
 
 The application helps users monitor and optimize electricity usage with hourly history, peaks, and alerts.
 
@@ -82,29 +78,29 @@ powertrack/
 
 ## Components Overview
 
-### ConsumptionChart 📊
-- File: `components/ConsumptionChart.tsx`
-- Purpose: Display 24-hour historical consumption as a line chart
+### ConsumptionChart
+File: `components/ConsumptionChart.tsx`
+Purpose: Display 24-hour historical consumption as a line chart
 
-### PredictionChart 🔮
-- File: `components/PredictionChart.tsx`
-- Purpose: Display forecast aligned with the historical time axis
+### PredictionChart
+File: `components/PredictionChart.tsx`
+Purpose: Display forecast aligned with the historical time axis
 
-### StatCard / StatsGrid 📈
-- File: `components/StatCard.tsx`
-- Purpose: Show current, average, peak, and predicted values
+### StatCard / StatsGrid
+File: `components/StatCard.tsx`
+Purpose: Show current, average, peak, and predicted values
 
-### PeakAlert & Recommendations ⚠️
-- File: `components/PeakAlert.tsx`
-- Purpose: Warn about consumption peaks and show savings tips
+### PeakAlert & Recommendations
+File: `components/PeakAlert.tsx`
+Purpose: Warn about consumption peaks and show savings tips
 
-### RecentReadings 📋
-- File: `components/RecentReadings.tsx`
-- Purpose: Display the last four hourly measurements
+### RecentReadings
+File: `components/RecentReadings.tsx`
+Purpose: Display the last four hourly measurements
 
-### ModelInfo 🧠
-- File: `components/ModelInfo.tsx`
-- Purpose: Show model parameters and accuracy metrics
+### ModelInfo
+File: `components/ModelInfo.tsx`
+Purpose: Show model parameters and accuracy metrics
 
 ---
 

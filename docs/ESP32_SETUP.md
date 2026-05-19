@@ -32,7 +32,8 @@ GND      ────→  GND
 
 const char* ssid = "YOUR_SSID";
 const char* password = "YOUR_PASSWORD";
-const char* serverUrl = "http://localhost:3000/api/readings";
+// Replace with your computer's local IP address reachable from the ESP32
+const char* serverUrl = "http://192.168.x.x:3000/api/readings";
 
 const int ACS_PIN = 35;
 const float SENSITIVITY = 0.186;
@@ -122,7 +123,9 @@ void sendToServer() {
 }
 
 String getTimestamp() {
-  return String(millis());
+  // The backend expects an ISO 8601 timestamp, e.g. 2026-05-18T21:00:00Z.
+  // Use a real clock / NTP sync in a production deployment.
+  return String("2026-05-18T21:00:00Z");
 }
 ```
 

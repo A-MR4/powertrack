@@ -1,92 +1,92 @@
-# 📋 RESUMEN DE IMPLEMENTACIÓN - PowerTrack
+# IMPLEMENTATION SUMMARY - PowerTrack
 
-## ✅ Proyecto Completado: Sistema de Predicción de Consumo Eléctrico con IA
+## Project: Electric Consumption Prediction System
 
-**Fecha**: Abril 2026  
-**Estado**: ✅ **FUNCIONAL Y LISTO PARA USO**  
-**Versión**: 1.0 Beta  
-
----
-
-## 🎯 Objetivo Cumplido
-
-Se ha desarrollado una **aplicación web completa** que combina:
-- 🔌 **IoT**: Sensor ACS712 + ESP32
-- 🤖 **IA**: Regresión Lineal (algoritmo de predicción)
-- 💻 **Frontend**: Dashboard interactivo con Next.js + React
-- 📊 **Visualización**: Gráficos interactivos con Recharts
+**Date**: April 2026
+**Status**: Completed
+**Version**: 1.0 Beta
 
 ---
 
-## 📦 Entregables
+## Objective
 
-### 1. **Aplicación Web (Funcional)** ✅
-- [x] Dashboard interactivo en `http://localhost:3000`
-- [x] Componentes React reutilizables
-- [x] Responsive design (mobile-friendly)
-- [x] Estilos con Tailwind CSS v4
+This project delivers a web application that integrates:
+- **IoT**: ACS712 sensor and ESP32
+- **AI**: Linear regression-based prediction
+- **Frontend**: Interactive dashboard built with Next.js and React
+- **Visualization**: Charts implemented with Recharts
 
-### 2. **Lógica de IA** ✅
-- [x] Algoritmo de Regresión Lineal implementado
-- [x] Cálculo de precisión (R²)
-- [x] Predicciones por hora
-- [x] Detección de picos automática
+---
 
-### 3. **Componentes Clave**
+## 📦 Deliverables
 
-| Componente | Función | Estado |
+### 1. Web Application
+- Interactive dashboard at `http://localhost:3000`
+- Reusable React components
+- Responsive design (mobile-friendly)
+- Styling using Tailwind CSS v4
+
+### 2. AI Logic
+- Linear regression-based model implemented
+- R² (coefficient of determination) calculation
+- Hourly predictions
+- Peak detection
+
+### 3. **Key Components**
+
+| Component | Purpose | Status |
 |-----------|---------|--------|
-| **ConsumptionChart** | Gráfico histórico 24h | ✅ |
-| **PredictionChart** | Predicciones próximas 12h | ✅ |
-| **StatCard** | Tarjetas de estadísticas | ✅ |
-| **PeakAlert** | Sistema de alertas | ✅ |
-| **Recommendations** | Sugerencias de ahorro | ✅ |
-| **RecentReadings** | Lecturas recientes | ✅ |
-| **ModelInfo** | Detalles técnicos | ✅ |
+| **ConsumptionChart** | 24-hour historical chart | Yes |
+| **PredictionChart** | Upcoming hourly predictions | Yes |
+| **StatCard** | Statistic cards | Yes |
+| **PeakAlert** | Alert system | Yes |
+| **Recommendations** | Energy-saving suggestions | Yes |
+| **RecentReadings** | Recent sensor readings | Yes |
+| **ModelInfo** | Technical model details | Yes |
 
-### 4. **Documentación Completa** ✅
-- [x] README.md - Guía principal (1000+ líneas)
-- [x] docs/TECHNICAL.md - Documentación técnica
-- [x] docs/ESP32_SETUP.md - Guía hardware con código C++
-- [x] docs/INDEX.md - Navegación del proyecto
+### 4. Complete Documentation
+- `README.md` - Main guide
+- `docs/TECHNICAL.md` - Technical documentation
+- `docs/ESP32_SETUP.md` - Hardware guide with example code
+- `docs/INDEX.md` - Documentation index
 
-### 5. **Utilidades y Módulos** ✅
-- [x] `lib/linearRegression.ts` - Algoritmo ML
-- [x] `lib/mockData.ts` - Generador de datos realistas
-- [x] Datos simulados con variabilidad (±15%)
+### 5. Utilities and Modules
+- [x] `lib/linearRegression.ts` - ML algorithm
+- [x] `lib/mockData.ts` - Demo data generator
+- [x] Demo data with realistic variability
 
 ---
 
-## 🗂️ Estructura de Carpetas Creada
+## Project Structure
 
 ```
 powertrack/
 ├── app/
-│   ├── page.tsx                    ← Dashboard principal
+│   ├── page.tsx
 │   ├── layout.tsx
 │   └── globals.css
-├── components/                     ← 6 componentes React
+├── components/
 │   ├── ConsumptionChart.tsx
 │   ├── PredictionChart.tsx
 │   ├── StatCard.tsx
 │   ├── PeakAlert.tsx
 │   ├── RecentReadings.tsx
 │   └── ModelInfo.tsx
-├── lib/                            ← Lógica de negocio
-│   ├── linearRegression.ts        (Algoritmo ML)
-│   └── mockData.ts                (Datos demo)
-├── docs/                           ← Documentación
+├── lib/
+│   ├── linearRegression.ts
+│   └── mockData.ts
+├── docs/
 │   ├── ESP32_SETUP.md
 │   ├── TECHNICAL.md
 │   └── INDEX.md
-├── package.json                    ← Dependencias actualizadas
-├── README.md                       ← Guía principal
+├── package.json
+├── README.md
 └── next.config.ts
 ```
 
 ---
 
-## 💾 Dependencias Instaladas
+## Installed Dependencies
 
 ```json
 {
@@ -94,10 +94,10 @@ powertrack/
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "recharts": "^2.10.0"           ← Gráficos
+    "recharts": "^2.10.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",   ← Estilos
+    "@tailwindcss/postcss": "^4",
     "typescript": "^5",
     "eslint": "^9"
   }
@@ -106,18 +106,18 @@ powertrack/
 
 ---
 
-## 🚀 Cómo Usar PowerTrack
+## How to Use PowerTrack
 
-### Instalación Rápida
+### Quick install
 ```bash
 cd powertrack
 npm install
 npm run dev
 ```
 
-Abre [http://localhost:3000](http://localhost:3000)
+Open http://localhost:3000
 
-### Build para Producción
+### Production build
 ```bash
 npm run build
 npm start
@@ -125,250 +125,229 @@ npm start
 
 ---
 
-## 📊 Características del Dashboard
+## Dashboard Features
 
-### 1. **Tarjetas de Estadísticas**
+### 1. **Statistic Cards**
 ```
 ┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
-│ Consumo Actual  │ Promedio 24h    │ Pico Today      │ Predicción (1h) │
+│ Current         │ 24h Average     │ Peak Today      │ Prediction (1h) │
 │ 6.11 kW         │ 3.62 kW         │ 6.45 kW         │ 4.9 kW          │
-│ Precisión: 41%  │                 │                 │                 │
+│ Accuracy: 41%   │                 │                 │                 │
 └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
 ```
 
-### 2. **Sistema de Alertas**
-- ✅ Detecta 8 horas con consumo elevado
-- ⚠️ Alerta crítica si intensidad > 1.5x promedio
-- 💡 Muestra recomendaciones personalizadas
+### 2. **Alert System**
+ - Detects hours with elevated consumption
+ - Triggers a critical alert if intensity > 1.5x average
+ - Provides recommendations
 
-### 3. **Gráficos Interactivos**
-- 📈 Consumo histórico (24 horas)
-- 🔮 Predicciones (próximas 12 horas)
-- 📊 Lecturas recientes (últimas 4 horas)
+### 3. **Interactive Charts**
+ - Historical consumption (24 hours)
+ - Forecast (next 12 hours)
+ - Recent readings (last 4 hours)
 
-### 4. **Información del Modelo**
+### 4. **Model Information**
 ```
-Fórmula:        y = 0.157x + 1.869
-Precisión (R²): 52.3%
-Pendiente:      +0.157 kW/hora
-Muestras:       24 datos históricos
+Formula:        y = 0.157x + 1.869
+R² (accuracy):  52.3%
+Slope:          +0.157 kW/hour
+Samples:        24 historical points
 ```
 
 ---
 
-## 🤖 Algoritmo de IA Implementado
+## Implemented Algorithm
 
-### Regresión Lineal (Mínimos Cuadrados)
+### Linear Regression (Least Squares)
 
-**Fórmula**: $y = mx + b$
+**Formula**: $y = mx + b$
 
-Donde:
-- **y** = Consumo predicho (kW)
-- **x** = Hora del día (0-23)
-- **m** = Pendiente (cambio por hora)
-- **b** = Intersección (consumo base)
+Where:
+- **y** = predicted consumption (kW)
+- **x** = hour of the day (0-23)
+- **m** = slope (change per hour)
+- **b** = intercept (base consumption)
 
-**Cálculo**:
+**Calculation**:
 ```
 m = (N·Σ(xy) - Σx·Σy) / (N·Σ(x²) - (Σx)²)
 b = (Σy - m·Σx) / N
 ```
 
-**Precisión (R²)**:
+**R² (coefficient of determination)**:
 ```
 R² = 1 - (SS_residual / SS_total)
-- 0.9-1.0: Excelente
-- 0.75-0.9: Buena
-- <<0.5: Pobre
 ```
 
 ---
 
-## 🔌 Integración Hardware (Guía Incluida)
+## Hardware Integration (Guide Included)
 
-El proyecto incluye documentación completa para conectar:
-- **Sensor**: ACS712 (5A) - Medidor de corriente
-- **Controlador**: ESP32 - Procesamiento WiFi
-- **Código**: Sketch C++ listo para usar
+The project includes full documentation for connecting:
+- **Sensor**: ACS712 (5A) - current sensor
+- **Controller**: ESP32 - WiFi-enabled microcontroller
+- **Code**: Example Arduino sketch ready to use
 
-Ver: `docs/ESP32_SETUP.md`
+See: `docs/ESP32_SETUP.md`
 
 ---
 
-## 📈 Patrón de Consumo Simulado
-
+## Simulated Consumption Pattern
 ```
-Hora     Consumo   Descripción
-────     ───────   ───────────
-00-06    1-2 kW    Mínimo (madrugada)
-06-10    4-5 kW    Alto (mañana)
-12-17    3-4 kW    Moderado (tarde)
-18-23    5-6 kW    Alto (noche)
+Hour     Consumption   Description
+00-06    1-2 kW        Night (low)
+06-10    4-5 kW        Morning peak
+12-17    3-4 kW        Afternoon (moderate)
+18-23    5-6 kW        Evening peak
 ```
 
-*Incluye variabilidad realista (±15%) para simulación auténtica*
+---
+
+## Implemented Features
+
+### Current
+- Responsive dashboard
+- Interactive charts
+- ML predictions
+- Peak detection
+- Energy-saving recommendations
+- Realistic demo data
+- Model technical info
+- Complete documentation
+
+### Pending (Future)
+- Database (PostgreSQL)
+- REST API enhancements
+- Authentication
+- Multi-device support
+- Email/SMS alerts
+- PDF reports
+- Advanced models (LSTM)
 
 ---
 
-## ✨ Features Implementadas
+## Included Documentation
 
-### Actuales ✅
-- [x] Dashboard responsivo
-- [x] Gráficos interactivos
-- [x] Predicción ML
-- [x] Detección de picos
-- [x] Recomendaciones de ahorro
-- [x] Datos simulados realistas
-- [x] Info técnica del modelo
-- [x] Documentación completa
-
-### Pendientes (Futuro)
-- [ ] Base de datos (PostgreSQL)
-- [ ] API REST
-- [ ] Autenticación
-- [ ] Multi-dispositivo
-- [ ] Alertas email/SMS
-- [ ] Reportes PDF
-- [ ] Modelos avanzados (LSTM)
+| File | Content |
+|------|---------|
+| `README.md` | Project overview and install |
+| `docs/TECHNICAL.md` | Architecture and API details |
+| `docs/ESP32_SETUP.md` | Hardware and firmware guide |
+| `docs/INDEX.md` | Documentation index |
 
 ---
 
-## 📚 Documentación Incluida
+## Educational Value
 
-| Archivo | Contenido | Páginas |
-|---------|----------|---------|
-| **README.md** | Descripción general + instalación | ~5 |
-| **docs/TECHNICAL.md** | Arquitectura, algoritmos, API | ~10 |
-| **docs/ESP32_SETUP.md** | Hardware + firmware + código C++ | ~8 |
-| **docs/INDEX.md** | Navegación del proyecto | ~10 |
-
-**Total**: ~30 páginas de documentación profesional
-
----
-
-## 🎓 Valor Educativo
-
-Este proyecto demuestra:
-- ✅ Aplicación práctica de **regresión lineal**
-- ✅ Integración **IoT + IA**
-- ✅ Desarrollo **full-stack** (React + Next.js)
-- ✅ Análisis de **series temporales**
-- ✅ **UX/UI** para dashboards
-- ✅ Buenas prácticas de **TypeScript**
-- ✅ **Diseño responsive** con Tailwind
-
-Ideal para **presentaciones educativas** sobre IA aplicada.
+This project demonstrates:
+- Practical application of **linear regression**
+- Integration of **IoT + AI**
+- Full-stack development with **React + Next.js**
+- Time-series analysis
+- UX/UI for dashboards
+- TypeScript best practices
+- Responsive design with Tailwind
 
 ---
 
-## 🖥️ Tecnologías Utilizadas
+## Technologies Used
 
 ### Frontend
-- ⚛️ **React 19.2.4** - Librería de UI
-- 🎨 **Next.js 16** - Framework fullstack
-- 🎨 **Tailwind CSS 4** - Estilos
-- 📊 **Recharts 2.10** - Gráficos
-- 📘 **TypeScript 5** - Tipado estático
+- React 19.2.4
+- Next.js 16
+- Tailwind CSS 4
+- Recharts 2.10
+- TypeScript 5
 
 ### Machine Learning
-- 🧮 Regresión Lineal (Mínimos Cuadrados)
-- 📊 Análisis Estadístico
-- 🎯 Validación con R²
+- Harmonic/cyclic linear regression
+- Statistical analysis and R² validation
 
-### Hardware (Documentado)
-- 🟢 **ESP32** - Controlador
-- ⚡ **ACS712** - Sensor de corriente
-- 📡 **WiFi** - Comunicación
+### Hardware
+- ESP32 microcontroller
+- ACS712 current sensor
 
 ---
 
-## 🚀 Cómo Extender
+## How to Extend
 
-### 1. Agregar Base de Datos
+### 1. Add a Database
 ```typescript
 // api/readings/route.ts
 export async function POST(request: Request) {
   const data = await request.json();
-  // Guardar en PostgreSQL
+  // Save to PostgreSQL
   await db.readings.create(data);
   return Response.json({ success: true });
 }
 ```
 
-### 2. Integrar ESP32 Real
-1. Cargar código desde `docs/ESP32_SETUP.md`
-2. Configurar WiFi
-3. Apuntar a API backend
-4. ¡Listo!
+### 2. Integrate a real ESP32
+1. Flash the example from `docs/ESP32_SETUP.md`
+2. Configure WiFi
+3. Point the device to the backend API
 
-### 3. Agregar Modelos Avanzados
+### 3. Add advanced models
 ```typescript
 // lib/advancedModels.ts
 export function predictWithLSTM(data, period) {
-  // Usar TensorFlow.js
+  // Use TensorFlow.js
 }
 ```
 
 ---
 
-## 📋 Checklist de Finalización
+## Completion Checklist
 
-- ✅ Aplicación funcional en `localhost:3000`
-- ✅ 6 componentes React implementados
-- ✅ Algoritmo ML funcionando
-- ✅ Datos simulados realistas
-- ✅ Responsive design
-- ✅ Documentación completa (30 páginas)
-- ✅ Código comentado y limpio
-- ✅ TypeScript tipado correctamente
-- ✅ README actualizado
-- ✅ Guía ESP32 incluida
-
----
-
-## 📞 Siguientes Pasos
-
-### Para Demostración
-1. `npm run dev` - Inicia servidor
-2. Abre [http://localhost:3000](http://localhost:3000)
-3. ¡Listo para presentación!
-
-### Para Producción
-1. `npm run build` - Construye optimizado
-2. `npm start` - Ejecuta servidor
-3. Desploya en Vercel/Railway/etc
-
-### Para Expansión
-1. Ver `docs/TECHNICAL.md` para API
-2. Ver `docs/ESP32_SETUP.md` para hardware
-3. Agregar BD + autenticación
-4. Multi-dispositivo
+- App runs at `localhost:3000`
+- 6 React components implemented
+- ML algorithm working
+- Realistic demo data
+- Responsive design
+- Complete documentation
+- Clean, commented code
+- TypeScript types
+- README updated
+- ESP32 guide included
 
 ---
 
-## 🎉 Conclusión
+## Next Steps
 
-**PowerTrack** es una aplicación **completa, funcional y educativa** que demuestra cómo:
-- Aplicar **Machine Learning** a casos reales
-- Integrar **IoT + IA**
-- Crear **dashboards profesionales**
-- Comunicar datos complejos de forma clara
+### For demo
+```bash
+npm run dev
+```
+Open http://localhost:3000
 
-**Está lista para:**
-✅ Presentaciones  
-✅ Demostraciones  
-✅ Educación  
-✅ Producción (con BD)  
+### For production
+```bash
+npm run build
+npm start
+```
+
+### For expansion
+1. See `docs/TECHNICAL.md` for API details
+2. See `docs/ESP32_SETUP.md` for hardware setup
+3. Add DB and authentication
 
 ---
 
-## 📄 Licencia
+## Conclusion
 
-MIT License - Libre para usar, modificar y distribuir
+PowerTrack is a functional and educational application that demonstrates how to:
+- Apply machine learning to practical problems
+- Integrate IoT and analytics
+- Create dashboards for monitoring and prediction
+- Present complex data clearly
 
 ---
 
-**Proyecto completado exitosamente** 🎉
+## License
 
-PowerTrack v1.0 - Predicción de Consumo Eléctrico con IA  
-*"Inteligencia Artificial aplicada a la eficiencia energética"*
+MIT License
+
+---
+
+PowerTrack v1.0
+"AI applied to energy efficiency"

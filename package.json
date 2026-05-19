@@ -8,13 +8,15 @@
     "build": "next build",
     "start": "next start",
     "post-reading-example": "node scripts/post-reading-example.js",
+    "ws-server": "node scripts/ws-server.js",
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "16.2.4",
+    "next": "^16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "recharts": "^2.10.0"
+    "recharts": "^2.10.0",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

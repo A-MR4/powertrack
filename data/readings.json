@@ -1,50 +1,296 @@
 [
-  { "id": "r-1", "timestamp": "2026-05-16T00:00:00Z", "consumption": 2.10, "current": 9.13 },
-  { "id": "r-2", "timestamp": "2026-05-16T01:00:00Z", "consumption": 1.78, "current": 7.74 },
-  { "id": "r-3", "timestamp": "2026-05-16T02:00:00Z", "consumption": 1.48, "current": 6.43 },
-  { "id": "r-4", "timestamp": "2026-05-16T03:00:00Z", "consumption": 1.25, "current": 5.43 },
-  { "id": "r-5", "timestamp": "2026-05-16T04:00:00Z", "consumption": 1.35, "current": 5.87 },
-  { "id": "r-6", "timestamp": "2026-05-16T05:00:00Z", "consumption": 1.60, "current": 6.96 },
-  { "id": "r-7", "timestamp": "2026-05-16T06:00:00Z", "consumption": 3.25, "current": 14.13 },
-  { "id": "r-8", "timestamp": "2026-05-16T07:00:00Z", "consumption": 4.40, "current": 19.13 },
-  { "id": "r-9", "timestamp": "2026-05-16T08:00:00Z", "consumption": 5.30, "current": 23.04 },
-  { "id": "r-10", "timestamp": "2026-05-16T09:00:00Z", "consumption": 4.85, "current": 21.09 },
-  { "id": "r-11", "timestamp": "2026-05-16T10:00:00Z", "consumption": 3.95, "current": 17.17 },
-  { "id": "r-12", "timestamp": "2026-05-16T11:00:00Z", "consumption": 3.55, "current": 15.43 },
-  { "id": "r-13", "timestamp": "2026-05-16T12:00:00Z", "consumption": 3.80, "current": 16.52 },
-  { "id": "r-14", "timestamp": "2026-05-16T13:00:00Z", "consumption": 4.05, "current": 17.61 },
-  { "id": "r-15", "timestamp": "2026-05-16T14:00:00Z", "consumption": 3.90, "current": 16.96 },
-  { "id": "r-16", "timestamp": "2026-05-16T15:00:00Z", "consumption": 3.65, "current": 15.87 },
-  { "id": "r-17", "timestamp": "2026-05-16T16:00:00Z", "consumption": 3.35, "current": 14.57 },
-  { "id": "r-18", "timestamp": "2026-05-16T17:00:00Z", "consumption": 3.75, "current": 16.30 },
-  { "id": "r-19", "timestamp": "2026-05-16T18:00:00Z", "consumption": 4.90, "current": 21.30 },
-  { "id": "r-20", "timestamp": "2026-05-16T19:00:00Z", "consumption": 5.75, "current": 25.00 },
-  { "id": "r-21", "timestamp": "2026-05-16T20:00:00Z", "consumption": 6.10, "current": 26.52 },
-  { "id": "r-22", "timestamp": "2026-05-16T21:00:00Z", "consumption": 5.40, "current": 23.48 },
-  { "id": "r-23", "timestamp": "2026-05-16T22:00:00Z", "consumption": 4.20, "current": 18.26 },
-  { "id": "r-24", "timestamp": "2026-05-16T23:00:00Z", "consumption": 3.15, "current": 13.70 },
-  { "id": "r-25", "timestamp": "2026-05-17T00:00:00Z", "consumption": 2.05, "current": 8.91 },
-  { "id": "r-26", "timestamp": "2026-05-17T01:00:00Z", "consumption": 1.70, "current": 7.39 },
-  { "id": "r-27", "timestamp": "2026-05-17T02:00:00Z", "consumption": 1.45, "current": 6.30 },
-  { "id": "r-28", "timestamp": "2026-05-17T03:00:00Z", "consumption": 1.20, "current": 5.22 },
-  { "id": "r-29", "timestamp": "2026-05-17T04:00:00Z", "consumption": 1.35, "current": 5.87 },
-  { "id": "r-30", "timestamp": "2026-05-17T05:00:00Z", "consumption": 1.70, "current": 7.39 },
-  { "id": "r-31", "timestamp": "2026-05-17T06:00:00Z", "consumption": 3.40, "current": 14.78 },
-  { "id": "r-32", "timestamp": "2026-05-17T07:00:00Z", "consumption": 4.70, "current": 20.43 },
-  { "id": "r-33", "timestamp": "2026-05-17T08:00:00Z", "consumption": 5.50, "current": 23.91 },
-  { "id": "r-34", "timestamp": "2026-05-17T09:00:00Z", "consumption": 5.15, "current": 22.39 },
-  { "id": "r-35", "timestamp": "2026-05-17T10:00:00Z", "consumption": 4.10, "current": 17.83 },
-  { "id": "r-36", "timestamp": "2026-05-17T11:00:00Z", "consumption": 3.70, "current": 16.09 },
-  { "id": "r-37", "timestamp": "2026-05-17T12:00:00Z", "consumption": 3.95, "current": 17.17 },
-  { "id": "r-38", "timestamp": "2026-05-17T13:00:00Z", "consumption": 4.30, "current": 18.70 },
-  { "id": "r-39", "timestamp": "2026-05-17T14:00:00Z", "consumption": 4.05, "current": 17.61 },
-  { "id": "r-40", "timestamp": "2026-05-17T15:00:00Z", "consumption": 3.80, "current": 16.52 },
-  { "id": "r-41", "timestamp": "2026-05-17T16:00:00Z", "consumption": 3.45, "current": 15.00 },
-  { "id": "r-42", "timestamp": "2026-05-17T17:00:00Z", "consumption": 3.85, "current": 16.74 },
-  { "id": "r-43", "timestamp": "2026-05-17T18:00:00Z", "consumption": 5.05, "current": 21.96 },
-  { "id": "r-44", "timestamp": "2026-05-17T19:00:00Z", "consumption": 6.20, "current": 26.96 },
-  { "id": "r-45", "timestamp": "2026-05-17T20:00:00Z", "consumption": 6.80, "current": 29.57 },
-  { "id": "r-46", "timestamp": "2026-05-17T21:00:00Z", "consumption": 5.90, "current": 25.65 },
-  { "id": "r-47", "timestamp": "2026-05-17T22:00:00Z", "consumption": 4.45, "current": 19.35 },
-  { "id": "r-48", "timestamp": "2026-05-17T23:00:00Z", "consumption": 3.20, "current": 13.91 }
+  {
+    "id": "r-1",
+    "timestamp": "2026-05-16T00:00:00Z",
+    "consumption": 2.1,
+    "current": 9.13
+  },
+  {
+    "id": "r-2",
+    "timestamp": "2026-05-16T01:00:00Z",
+    "consumption": 1.78,
+    "current": 7.74
+  },
+  {
+    "id": "r-3",
+    "timestamp": "2026-05-16T02:00:00Z",
+    "consumption": 1.48,
+    "current": 6.43
+  },
+  {
+    "id": "r-4",
+    "timestamp": "2026-05-16T03:00:00Z",
+    "consumption": 1.25,
+    "current": 5.43
+  },
+  {
+    "id": "r-5",
+    "timestamp": "2026-05-16T04:00:00Z",
+    "consumption": 1.35,
+    "current": 5.87
+  },
+  {
+    "id": "r-6",
+    "timestamp": "2026-05-16T05:00:00Z",
+    "consumption": 1.6,
+    "current": 6.96
+  },
+  {
+    "id": "r-7",
+    "timestamp": "2026-05-16T06:00:00Z",
+    "consumption": 3.25,
+    "current": 14.13
+  },
+  {
+    "id": "r-8",
+    "timestamp": "2026-05-16T07:00:00Z",
+    "consumption": 4.4,
+    "current": 19.13
+  },
+  {
+    "id": "r-9",
+    "timestamp": "2026-05-16T08:00:00Z",
+    "consumption": 5.3,
+    "current": 23.04
+  },
+  {
+    "id": "r-10",
+    "timestamp": "2026-05-16T09:00:00Z",
+    "consumption": 4.85,
+    "current": 21.09
+  },
+  {
+    "id": "r-11",
+    "timestamp": "2026-05-16T10:00:00Z",
+    "consumption": 3.95,
+    "current": 17.17
+  },
+  {
+    "id": "r-12",
+    "timestamp": "2026-05-16T11:00:00Z",
+    "consumption": 3.55,
+    "current": 15.43
+  },
+  {
+    "id": "r-13",
+    "timestamp": "2026-05-16T12:00:00Z",
+    "consumption": 3.8,
+    "current": 16.52
+  },
+  {
+    "id": "r-14",
+    "timestamp": "2026-05-16T13:00:00Z",
+    "consumption": 4.05,
+    "current": 17.61
+  },
+  {
+    "id": "r-15",
+    "timestamp": "2026-05-16T14:00:00Z",
+    "consumption": 3.9,
+    "current": 16.96
+  },
+  {
+    "id": "r-16",
+    "timestamp": "2026-05-16T15:00:00Z",
+    "consumption": 3.65,
+    "current": 15.87
+  },
+  {
+    "id": "r-17",
+    "timestamp": "2026-05-16T16:00:00Z",
+    "consumption": 3.35,
+    "current": 14.57
+  },
+  {
+    "id": "r-18",
+    "timestamp": "2026-05-16T17:00:00Z",
+    "consumption": 3.75,
+    "current": 16.3
+  },
+  {
+    "id": "r-19",
+    "timestamp": "2026-05-16T18:00:00Z",
+    "consumption": 4.9,
+    "current": 21.3
+  },
+  {
+    "id": "r-20",
+    "timestamp": "2026-05-16T19:00:00Z",
+    "consumption": 5.75,
+    "current": 25
+  },
+  {
+    "id": "r-21",
+    "timestamp": "2026-05-16T20:00:00Z",
+    "consumption": 6.1,
+    "current": 26.52
+  },
+  {
+    "id": "r-22",
+    "timestamp": "2026-05-16T21:00:00Z",
+    "consumption": 5.4,
+    "current": 23.48
+  },
+  {
+    "id": "r-23",
+    "timestamp": "2026-05-16T22:00:00Z",
+    "consumption": 4.2,
+    "current": 18.26
+  },
+  {
+    "id": "r-24",
+    "timestamp": "2026-05-16T23:00:00Z",
+    "consumption": 3.15,
+    "current": 13.7
+  },
+  {
+    "id": "r-25",
+    "timestamp": "2026-05-17T00:00:00Z",
+    "consumption": 2.05,
+    "current": 8.91
+  },
+  {
+    "id": "r-26",
+    "timestamp": "2026-05-17T01:00:00Z",
+    "consumption": 1.7,
+    "current": 7.39
+  },
+  {
+    "id": "r-27",
+    "timestamp": "2026-05-17T02:00:00Z",
+    "consumption": 1.45,
+    "current": 6.3
+  },
+  {
+    "id": "r-28",
+    "timestamp": "2026-05-17T03:00:00Z",
+    "consumption": 1.2,
+    "current": 5.22
+  },
+  {
+    "id": "r-29",
+    "timestamp": "2026-05-17T04:00:00Z",
+    "consumption": 1.35,
+    "current": 5.87
+  },
+  {
+    "id": "r-30",
+    "timestamp": "2026-05-17T05:00:00Z",
+    "consumption": 1.7,
+    "current": 7.39
+  },
+  {
+    "id": "r-31",
+    "timestamp": "2026-05-17T06:00:00Z",
+    "consumption": 3.4,
+    "current": 14.78
+  },
+  {
+    "id": "r-32",
+    "timestamp": "2026-05-17T07:00:00Z",
+    "consumption": 4.7,
+    "current": 20.43
+  },
+  {
+    "id": "r-33",
+    "timestamp": "2026-05-17T08:00:00Z",
+    "consumption": 5.5,
+    "current": 23.91
+  },
+  {
+    "id": "r-34",
+    "timestamp": "2026-05-17T09:00:00Z",
+    "consumption": 5.15,
+    "current": 22.39
+  },
+  {
+    "id": "r-35",
+    "timestamp": "2026-05-17T10:00:00Z",
+    "consumption": 4.1,
+    "current": 17.83
+  },
+  {
+    "id": "r-36",
+    "timestamp": "2026-05-17T11:00:00Z",
+    "consumption": 3.7,
+    "current": 16.09
+  },
+  {
+    "id": "r-37",
+    "timestamp": "2026-05-17T12:00:00Z",
+    "consumption": 3.95,
+    "current": 17.17
+  },
+  {
+    "id": "r-38",
+    "timestamp": "2026-05-17T13:00:00Z",
+    "consumption": 4.3,
+    "current": 18.7
+  },
+  {
+    "id": "r-39",
+    "timestamp": "2026-05-17T14:00:00Z",
+    "consumption": 4.05,
+    "current": 17.61
+  },
+  {
+    "id": "r-40",
+    "timestamp": "2026-05-17T15:00:00Z",
+    "consumption": 3.8,
+    "current": 16.52
+  },
+  {
+    "id": "r-41",
+    "timestamp": "2026-05-17T16:00:00Z",
+    "consumption": 3.45,
+    "current": 15
+  },
+  {
+    "id": "r-42",
+    "timestamp": "2026-05-17T17:00:00Z",
+    "consumption": 3.85,
+    "current": 16.74
+  },
+  {
+    "id": "r-43",
+    "timestamp": "2026-05-17T18:00:00Z",
+    "consumption": 5.05,
+    "current": 21.96
+  },
+  {
+    "id": "r-44",
+    "timestamp": "2026-05-17T19:00:00Z",
+    "consumption": 6.2,
+    "current": 26.96
+  },
+  {
+    "id": "r-45",
+    "timestamp": "2026-05-17T20:00:00Z",
+    "consumption": 6.8,
+    "current": 29.57
+  },
+  {
+    "id": "r-46",
+    "timestamp": "2026-05-17T21:00:00Z",
+    "consumption": 5.9,
+    "current": 25.65
+  },
+  {
+    "id": "r-47",
+    "timestamp": "2026-05-17T22:00:00Z",
+    "consumption": 4.45,
+    "current": 19.35
+  },
+  {
+    "id": "r-48",
+    "timestamp": "2026-05-17T23:00:00Z",
+    "consumption": 3.2,
+    "current": 13.91
+  },
+  {
+    "id": "1779158355649-49",
+    "consumption": 4.75,
+    "current": 19.8,
+    "timestamp": "2026-05-19T02:39:14.795Z"
+  }
 ]
