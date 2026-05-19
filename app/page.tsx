@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ConsumptionChart } from '@/components/ConsumptionChart';
 import { PredictionChart } from '@/components/PredictionChart';
 import { StatsGrid } from '@/components/StatCard';
@@ -10,7 +10,8 @@ import { ModelInfo } from '@/components/ModelInfo';
 import { 
   calculateLinearRegression, 
   generateHourlyPredictions, 
-  calculateRSquared 
+  calculateRSquared,
+  ConsumptionData,
 } from '@/lib/linearRegression';
 import {
   generateMockConsumptionData,
@@ -20,8 +21,35 @@ import {
   generateSavingsRecommendations,
 } from '@/lib/mockData';
 
+interface BackendReading {
+  timestamp: string;
+  consumption: number;
+  current: number;
+}
+
 export default function Home() {
-  // Generar datos y modelo de predicción
+  const [backendReadings, setBackendReadings] = useState<BackendReading[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadReadings() {
+      try {
+        const response = await fetch('/api/readings');
+        const body = await response.json();
+
+        if (Array.isArray(body.readings)) {
+          setBackendReadings(body.readings);
+        }
+      } catch (error) {
+        console.error('Error loading readings:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadReadings();
+  }, []);
+
   const { 
     historicalData, 
     model, 
@@ -33,19 +61,48 @@ export default function Home() {
     recentReadings,
     currentConsumption,
   } = useMemo(() => {
-    const data = generateMockConsumptionData();
-    const model = calculateLinearRegression(data);
-    const rSquared = calculateRSquared(data, model);
-    const currentHour = new Date().getHours();
+    const fallbackData = generateMockConsumptionData();
+
+    const sortedBackendReadings = backendReadings.length > 0
+      ? [...backendReadings].sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
+      : [];
+
+    const trainingData: ConsumptionData[] = backendReadings.length > 0
+      ? sortedBackendReadings.map((reading) => ({
+          time: new Date(reading.timestamp).getUTCHours(),
+          consumption: reading.consumption,
+        }))
+      : fallbackData;
+
+    const dailyData: ConsumptionData[] = backendReadings.length > 0
+      ? sortedBackendReadings.slice(-24).map((reading) => ({
+          time: new Date(reading.timestamp).getUTCHours(),
+          consumption: reading.consumption,
+        }))
+      : fallbackData;
+
+    const model = calculateLinearRegression(trainingData);
+    const rSquared = calculateRSquared(trainingData, model);
+    const currentHour = new Date().getUTCHours();
     const predictions = generateHourlyPredictions(model, currentHour);
-    const stats = calculateConsumptionStats(data);
-    const peaks = detectPeaks(data);
-    const recommendations = generateSavingsRecommendations(data, predictions);
-    const recentReadings = getRecentReadings();
+    const stats = calculateConsumptionStats(dailyData);
+    const peaks = detectPeaks(dailyData);
+    const recommendations = generateSavingsRecommendations(dailyData, predictions);
+    const recentReadings = backendReadings.length > 0
+      ? sortedBackendReadings.slice(-4).map((reading) => ({
+          time: new Date(reading.timestamp).toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+            timeZone: 'UTC',
+          }),
+          consumption: reading.consumption,
+          timestamp: new Date(reading.timestamp),
+        }))
+      : getRecentReadings();
     const currentConsumption = recentReadings[recentReadings.length - 1]?.consumption || stats.average;
 
     return {
-      historicalData: data,
+      historicalData: dailyData,
       model,
       predictions,
       rSquared,
@@ -55,14 +112,12 @@ export default function Home() {
       recentReadings,
       currentConsumption,
     };
-  }, []);
-
-  const peakData = historicalData.map(d => d.consumption);
+  }, [backendReadings]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Header */}
-      <header className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
+      <header className="bg-gradient-to-r from-gray-800 to-gray-600 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="flex items-center justify-between">
             <div>
@@ -113,7 +168,7 @@ export default function Home() {
           />
           <PredictionChart 
             predictions={predictions}
-            historicalConsumption={peakData}
+            historicalData={historicalData}
           />
         </section>
 
@@ -126,8 +181,7 @@ export default function Home() {
         <section>
           <ModelInfo 
             rSquared={rSquared}
-            slope={model.slope}
-            intercept={model.intercept}
+            model={model}
             sampleCount={historicalData.length}
           />
         </section>

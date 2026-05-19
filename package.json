@@ -7,6 +7,7 @@
     "dev:turbo": "next dev",
     "build": "next build",
     "start": "next start",
+    "post-reading-example": "node scripts/post-reading-example.js",
     "lint": "eslint"
   },
   "dependencies": {

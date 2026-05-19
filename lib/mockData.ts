@@ -126,7 +126,7 @@ export function detectPeaks(data: ConsumptionData[], threshold: number = 1.2) {
  * Genera recomendaciones de ahorro
  */
 export function generateSavingsRecommendations(data: ConsumptionData[], predictions: any[]) {
-  const recommendations = [];
+  const recommendations: { icon: string; title: string; description: string; priority: 'high' | 'medium' | 'low' }[] = [];
   const stats = calculateConsumptionStats(data);
   const peaks = detectPeaks(data);
 

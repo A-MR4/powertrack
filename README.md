@@ -1,251 +1,196 @@
-# ⚡ PowerTrack - Predicción de Consumo Eléctrico con IA
+# PowerTrack
 
-Un sistema inteligente de monitoreo y predicción de consumo eléctrico que utiliza **Regresión Lineal** para analizar patrones de consumo y proporcionar recomendaciones de ahorro energético en tiempo real.
+## Executive Summary
 
-## 🎯 Descripción del Proyecto
+PowerTrack is a smart energy consumption dashboard with predictive analytics. It combines:
+- 🔌 IoT hardware (ESP32 + ACS712)
+- 🤖 machine learning and forecasting
+- 💻 a dashboard built with Next.js + React
+- 💾 local JSON persistence for readings
 
-PowerTrack es una aplicación web moderna que integra:
-- **Sensores IoT** (ACS712 + ESP32) para lectura de corriente
-- **Machine Learning** (Regresión Lineal) para predicciones
-- **Dashboard interactivo** con visualizaciones en tiempo real
+The application helps users monitor and optimize electricity usage with hourly history, peaks, and alerts.
 
-El sistema predice el consumo eléctrico futuro basado en:
-- Consumo actual del dispositivo
-- Patrones históricos de consumo (24 horas)
-- Hora del día
+---
 
-## 📊 Características Principales
+## Key Features
 
-### 19️ Dashboard Interactivo
-- **Tarjetas de Estadísticas**: Consumo actual, promedio, picos, predicción (1h)
-- **Gráficos de Tendencias**: Historial de 24h con línea de predicción
-- **Alertas de Picos**: Detección automática de consumo anómalo
-- **Recomendaciones Personalizadas**: Estrategias de ahorro energético
+- Interactive statistics cards for current, average, peak, and forecast consumption
+- Historical 24-hour consumption chart
+- Forecast chart aligned with hourly timestamps
+- Peak detection and energy-saving recommendations
+- Local readings storage in `data/readings.json`
+- Backend API with GET and POST endpoints
+- Demo POST script in `scripts/post-reading-example.js`
 
-### 🤖 Motor de IA (Regresión Lineal)
-- Algoritmo: **Mínimos Cuadrados**
-- Precisión: **R² dinámico** (adaptable según datos)
-- Fórmula: `Consumo = 0.XXX × Hora + b`
-- Actualización: Automática cada hora
+---
 
-### 🔌 Integración IoT
-- **Sensor**: ACS712 (medición de corriente AC)
-- **Controlador**: ESP32 (procesamiento + WiFi)
-- **Comunicación**: WiFi 2.4/5GHz
-- **Tasa de muestreo**: Lecturas cada 1 hora
+## Quick Start
 
-### 💡 Análisis de Patrones
-- Detección de picos de consumo
-- Identificación de franjas horarias críticas
-- Análisis de tendencias (aumento/disminución)
-- Cálculo de ahorro potencial
-
-## 🏗️ Arquitectura del Sistema
-
-```
-Hardware IoT                Backend                    Frontend
-┌─────────────┐            ┌──────────┐              ┌─────────┐
-│   ACS712    │            │ Next.js  │              │ React 19│
-│   Sensor    │ ──WiFi──→  │ + API    │ ──JSON────→ │ + Chart │
-│             │            │ + ML     │              │ Library │
-│   ESP32     │            │ (RL)     │              │         │
-└─────────────┘            └──────────┘              └─────────┘
-```
-
-## 📈 Algoritmo de Predicción
-
-### Regresión Lineal Simple
-```
-y = mx + b
-
-Donde:
-- y = Consumo predicho (kW)
-- x = Hora del día (0-23)
-- m = Pendiente (cambio por hora)
-- b = Intersección (consumo base)
-```
-
-### Cálculo de Precisión (R²)
-```
-R² = 1 - (SS_res / SS_tot)
-
-Coeficiente de determinación entre 0 y 1:
-- 0.9-1.0: Excelente precisión
-- 0.75-0.9: Buena precisión
-- 0.5-0.75: Precisión aceptable
-- <0.5: Revisar datos
-```
-
-## 🚀 Inicio Rápido
-
-### Requisitos
-- Node.js 18+ (incluido npm)
-- Conexión a WiFi (para ESP32)
-
-### Instalación
+### Install
 ```bash
-# 1. Clonar o descargar el proyecto
 cd powertrack
-
-# 2. Instalar dependencias
 npm install
-
-# 3. Ejecutar servidor de desarrollo
 npm run dev
-
-# 4. Abrir en navegador
-# http://localhost:3000
 ```
 
-### Build para Producción
+Open http://localhost:3000 in your browser.
+
+### Production build
 ```bash
 npm run build
 npm start
 ```
 
-## 📁 Estructura del Proyecto
+---
+
+## Project Structure
 
 ```
 powertrack/
 ├── app/
-│   ├── page.tsx              # Página principal (Dashboard)
-│   ├── layout.tsx            # Layout global
-│   └── globals.css           # Estilos globales
+│   ├── page.tsx              # Main dashboard
+│   ├── layout.tsx            # Global layout
+│   ├── globals.css           # Global styles
+│   └── api/                  # API routes
 ├── components/
-│   ├── ConsumptionChart.tsx   # Gráfico histórico
-│   ├── PredictionChart.tsx    # Gráfico de predicciones
-│   ├── StatCard.tsx           # Tarjetas de estadísticas
-│   ├── PeakAlert.tsx          # Alertas de picos
-│   ├── RecentReadings.tsx     # Lecturas recientes
-│   └── ModelInfo.tsx          # Info del modelo IA
+│   ├── ConsumptionChart.tsx  # Historical chart
+│   ├── PredictionChart.tsx   # Forecast chart
+│   ├── StatCard.tsx          # Stats cards
+│   ├── PeakAlert.tsx         # Peak alerts
+│   ├── RecentReadings.tsx    # Recent readings list
+│   └── ModelInfo.tsx         # Model details
 ├── lib/
-│   ├── linearRegression.ts    # Algoritmo de regresión
-│   └── mockData.ts            # Generador de datos simulados
-├── public/                     # Activos estáticos
-├── package.json               # Dependencias
-├── tsconfig.json              # Configuración TypeScript
-├── next.config.ts             # Configuración Next.js
-├── tailwind.config.js        # Configuración Tailwind CSS
-└── README.md                  # Este archivo
+│   ├── linearRegression.ts   # Prediction model logic
+│   ├── mockData.ts           # Demo data generator
+│   └── db.ts                 # Local storage helpers
+├── scripts/
+│   └── post-reading-example.js
+├── data/
+│   └── readings.json         # Local persisted readings
+├── docs/
+│   ├── ESP32_SETUP.md
+│   ├── TECHNICAL.md
+│   └── INDEX.md
+├── public/
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+└── README.md
 ```
-
-## 🔧 Tecnologías Utilizadas
-
-### Frontend
-- **Next.js 16** - Framework React moderno con SSR
-- **React 19** - Librería de UI
-- **TypeScript** - Tipado estático
-- **Tailwind CSS 4** - Estilos utilitarios
-- **Recharts** - Gráficos interactivos
-- **Lucide React** - Iconografía
-
-### Machine Learning
-- **Regresión Lineal** (Mínimos Cuadrados)
-- **Análisis Estadístico** (Media, Desv. Est., R²)
-
-### IoT (Hardware - Código de Referencia)
-```cpp
-// Ejemplo de código para ESP32:
-#include <WiFi.h>
-const int ACS_PIN = 35;  // Entrada analógica
-
-void setup() {
-  Serial.begin(115200);
-  WiFi.begin(SSID, PASSWORD);
-}
-
-void loop() {
-  int rawValue = analogRead(ACS_PIN);
-  // Calibración: ACS712 mide +/- 30A (5V = 30A)
-  float voltage = (rawValue * 3.3) / 4095;
-  float currentA = (voltage - 2.5) / 0.066; // 66mV por A
-  float powerW = currentA * 230;  // 230V estándar
-  
-  // Enviar a servidor cada hora
-  // ...
-}
-```
-
-## 📊 Datos Simulados
-
-Para demostración, la aplicación genera datos realistas con patrón típico:
-
-```
-Consumo por Hora:
-- 00-06h: Mínimo (1-2 kW)  - Madrugada
-- 06-10h: Alto (4-5 kW)    - Mañana
-- 12-17h: Moderado (3-4 kW) - Tarde
-- 18-23h: Alto (5-6 kW)    - Noche + variabilidad
-```
-
-## 💡 Casos de Uso
-
-### 1. **Monitoreo Doméstico**
-Seguimiento de consumo de electrodomésticos principales
-- Refrigerador
-- Aire acondicionado
-- Calefactor
-
-### 2. **Eficiencia Empresarial**
-Optimización de costos en instalaciones comerciales
-- Oficinas
-- Tiendas retail
-- Centros de datos
-
-### 3. **Automatización del Hogar**
-Integración con sistemas inteligentes
-- Apagar dispositivos en horas pico
-- Ajustar temperatura automáticamente
-
-## 🎓 Aspectos Educativos
-
-Este proyecto es ideal para demostrar:
-- ✅ Aplicación práctica de regresión lineal
-- ✅ Integración de sensores IoT con IA
-- ✅ Desarrollo full-stack (Frontend + Backend)
-- ✅ Análisis de datos en tiempo real
-- ✅ UX/UI para dashboards analíticos
-
-## 🔐 Consideraciones de Seguridad
-
-- [ ] Autenticación OAuth2 (producción)
-- [ ] Encriptación HTTPS en conexión ESP32
-- [ ] Validación de datos del sensor
-- [ ] Rate limiting en API
-- [ ] Almacenamiento seguro de históricos
-
-## 📈 Mejoras Futuras
-
-- [ ] **MLModelos Avanzados**: LSTM, Prophet, XGBoost
-- [ ] **Multiusuario**: Gestión de múltiples dispositivos
-- [ ] **Almacenamiento**: Base de datos (PostgreSQL/MongoDB)
-- [ ] **Alertas**: Notificaciones por email/SMS
-- [ ] **Exportación**: Reportes PDF descargables
-- [ ] **API REST**: Integración con terceros
-
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas. Para cambios mayores:
-1. Fork el proyecto
-2. Crea una rama (`git checkout -b feature/AmazingFeature`)
-3. Commit cambios (`git commit -m 'Add AmazingFeature'`)
-4. Push a rama (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
-
-## 📝 Licencia
-
-Este proyecto es de código abierto bajo licencia MIT.
-
-## 📧 Contacto
-
-Para preguntas o sugerencias, contacta al desarrollador del proyecto.
 
 ---
 
-<div align="center">
+## Components Overview
 
-**PowerTrack** ⚡ - *Inteligencia Artificial aplicada a la eficiencia energética*
+### ConsumptionChart 📊
+- File: `components/ConsumptionChart.tsx`
+- Purpose: Display 24-hour historical consumption as a line chart
 
-Desarrollado con ❤️ usando Next.js y Machine Learning
+### PredictionChart 🔮
+- File: `components/PredictionChart.tsx`
+- Purpose: Display forecast aligned with the historical time axis
 
-</div>
+### StatCard / StatsGrid 📈
+- File: `components/StatCard.tsx`
+- Purpose: Show current, average, peak, and predicted values
+
+### PeakAlert & Recommendations ⚠️
+- File: `components/PeakAlert.tsx`
+- Purpose: Warn about consumption peaks and show savings tips
+
+### RecentReadings 📋
+- File: `components/RecentReadings.tsx`
+- Purpose: Display the last four hourly measurements
+
+### ModelInfo 🧠
+- File: `components/ModelInfo.tsx`
+- Purpose: Show model parameters and accuracy metrics
+
+---
+
+## Logic Modules
+
+### `lib/linearRegression.ts`
+- Uses cyclic hourly features to capture daily consumption patterns
+- Includes harmonic terms like `cos(2πh/24)` and `sin(2πh/24)` plus a second harmonic
+- Produces a model that is more robust than a plain linear fit
+
+### `lib/db.ts`
+- Reads and writes readings to `data/readings.json`
+- Provides `getReadings()` and `addReading()` for API usage
+
+### `lib/mockData.ts`
+- Generates realistic demo consumption data
+- Computes statistics and detects peaks
+- Builds personalized energy-saving recommendations
+
+---
+
+## API and Local Storage
+
+### Endpoints
+- `GET /api/readings` - retrieve stored readings
+- `POST /api/readings` - add a new hourly reading
+
+### Example command
+```bash
+npm run post-reading-example
+```
+
+### Example POST payload
+```json
+{
+  "consumption": 4.25,
+  "current": 18.5,
+  "timestamp": "2026-05-18T21:00:00Z"
+}
+```
+
+---
+
+## Visual Design Notes
+
+- Header gradient: `gray-800` to `gray-600`
+- Primary accent: blue
+- Warning accent: yellow/red
+- Success accent: green
+
+---
+
+## Documentation Files
+
+| File | Description |
+|------|-------------|
+| `README.md` | Main project overview |
+| `docs/TECHNICAL.md` | Architecture and API details |
+| `docs/ESP32_SETUP.md` | ESP32 wiring and firmware guide |
+| `docs/INDEX.md` | Documentation index |
+
+---
+
+## Recent Updates
+
+- Added local JSON persistence in `data/readings.json`
+- Added backend API route in `app/api/readings/route.ts`
+- Added a sample POST request script in `scripts/post-reading-example.js`
+- Upgraded the model to include cyclic hourly features
+- Aligned forecast chart with historical hour labels
+- Converted documentation into English
+
+---
+
+## Useful Commands
+
+```bash
+npm install
+npm run dev
+npm run post-reading-example
+npm run build
+npm start
+```
+
+---
+
+## License
+
+MIT License

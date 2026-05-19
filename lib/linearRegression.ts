@@ -1,52 +1,130 @@
-// Implementación de Regresión Lineal Simple para predicción de consumo
+// Implementación de un modelo cíclico diario para predicción de consumo
 export interface ConsumptionData {
   time: number; // Hora del día (0-23)
   consumption: number; // Consumo en valores relativos
 }
 
 export interface RegressionModel {
-  slope: number;
   intercept: number;
+  cos1: number;
+  sin1: number;
+  cos2: number;
+  sin2: number;
+}
+
+const TWO_PI = Math.PI * 2;
+
+function solveLinearSystem(matrix: number[][], vector: number[]): number[] {
+  const n = matrix.length;
+  const A = matrix.map((row) => row.slice());
+  const b = vector.slice();
+
+  for (let i = 0; i < n; i += 1) {
+    let pivotRow = i;
+    for (let j = i + 1; j < n; j += 1) {
+      if (Math.abs(A[j][i]) > Math.abs(A[pivotRow][i])) {
+        pivotRow = j;
+      }
+    }
+
+    if (pivotRow !== i) {
+      [A[i], A[pivotRow]] = [A[pivotRow], A[i]];
+      [b[i], b[pivotRow]] = [b[pivotRow], b[i]];
+    }
+
+    const pivot = A[i][i] || 1e-12;
+    for (let j = i; j < n; j += 1) {
+      A[i][j] /= pivot;
+    }
+    b[i] /= pivot;
+
+    for (let j = 0; j < n; j += 1) {
+      if (j === i) continue;
+      const factor = A[j][i];
+      for (let k = i; k < n; k += 1) {
+        A[j][k] -= factor * A[i][k];
+      }
+      b[j] -= factor * b[i];
+    }
+  }
+
+  return b;
+}
+
+function createFeatureRow(hour: number) {
+  const angle1 = (TWO_PI * hour) / 24;
+  const angle2 = (TWO_PI * 2 * hour) / 24;
+
+  return [
+    1,
+    Math.cos(angle1),
+    Math.sin(angle1),
+    Math.cos(angle2),
+    Math.sin(angle2),
+  ];
 }
 
 /**
- * Calcula el modelo de regresión lineal (y = mx + b)
+ * Calcula un modelo cíclico diario usando armónicos sinusoidales
  * @param data - Array de datos con hora y consumo
- * @returns Objeto con pendiente (slope) e intersección (intercept)
+ * @returns Modelo con coeficientes de la serie de Fourier
  */
 export function calculateLinearRegression(data: ConsumptionData[]): RegressionModel {
   const n = data.length;
-  if (n === 0) throw new Error("No data provided");
+  if (n === 0) throw new Error('No data provided');
 
-  // Calcular sumas necesarias
-  let sumX = 0;
-  let sumY = 0;
-  let sumXY = 0;
-  let sumX2 = 0;
+  const featureRows = data.map((point) => createFeatureRow(point.time));
+  const dimension = featureRows[0].length;
 
-  data.forEach((point) => {
-    sumX += point.time;
-    sumY += point.consumption;
-    sumXY += point.time * point.consumption;
-    sumX2 += point.time * point.time;
+  const xtx = Array.from({ length: dimension }, () => Array(dimension).fill(0));
+  const xty = Array(dimension).fill(0);
+
+  data.forEach((point, index) => {
+    const row = featureRows[index];
+
+    for (let i = 0; i < dimension; i += 1) {
+      for (let j = i; j < dimension; j += 1) {
+        xtx[i][j] += row[i] * row[j];
+      }
+      xty[i] += row[i] * point.consumption;
+    }
   });
 
-  // Aplicar fórmulas de mínimos cuadrados
-  const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
-  const intercept = (sumY - slope * sumX) / n;
+  for (let i = 0; i < dimension; i += 1) {
+    for (let j = 0; j < i; j += 1) {
+      xtx[i][j] = xtx[j][i];
+    }
+  }
 
-  return { slope, intercept };
+  const coefficients = solveLinearSystem(xtx, xty);
+
+  return {
+    intercept: coefficients[0],
+    cos1: coefficients[1],
+    sin1: coefficients[2],
+    cos2: coefficients[3],
+    sin2: coefficients[4],
+  };
 }
 
 /**
- * Predice el consumo para una hora específica usando el modelo
+ * Predice el consumo para una hora específica usando el modelo cíclico
  * @param model - Modelo de regresión
  * @param hour - Hora para predecir (0-23)
  * @returns Predicción de consumo
  */
 export function predictConsumption(model: RegressionModel, hour: number): number {
-  const prediction = model.slope * hour + model.intercept;
-  return Math.max(0, prediction); // Asegurar que no sea negativo
+  const angle1 = (TWO_PI * hour) / 24;
+  const angle2 = (TWO_PI * 2 * hour) / 24;
+
+  const prediction =
+    model.intercept +
+    model.cos1 * Math.cos(angle1) +
+    model.sin1 * Math.sin(angle1) +
+    model.cos2 * Math.cos(angle2) +
+    model.sin2 * Math.sin(angle2);
+
+  return Math.max(0, prediction);
 }
 
 /**

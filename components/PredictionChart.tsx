@@ -1,5 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, Bar } from 'recharts';
+import { ConsumptionData } from '@/lib/linearRegression';
 
 interface PredictionData {
   hour: number;
@@ -9,19 +10,23 @@ interface PredictionData {
 
 interface PredictionChartProps {
   predictions: PredictionData[];
-  historicalConsumption?: number[];
+  historicalData?: ConsumptionData[];
 }
 
-export function PredictionChart({ predictions, historicalConsumption }: PredictionChartProps) {
-  const chartData = predictions.map((p, index) => ({
-    time: `${String(p.hour).padStart(2, '0')}:00`,
-    prediction: p.consumption,
-    historical: historicalConsumption ? historicalConsumption[index] : null,
-  })).filter((_, i) => i < 12); // Mostrar solo próximas 12 horas
+export function PredictionChart({ predictions, historicalData }: PredictionChartProps) {
+  const chartData = predictions.map((p) => {
+    const historicalMatch = historicalData?.find((hist) => hist.time === p.hour);
+
+    return {
+      time: `${String(p.hour).padStart(2, '0')}:00`,
+      prediction: p.consumption,
+      historical: historicalMatch ? historicalMatch.consumption : null,
+    };
+  });
 
   return (
     <div className="w-full bg-white p-6 rounded-lg shadow-md border border-gray-200">
-      <h2 className="text-xl font-semibold mb-4 text-gray-900">Predicción de Consumo (Próximas 12h)</h2>
+      <h2 className="text-xl font-semibold mb-4 text-gray-900">Predicción de Consumo (24h)</h2>
       <ResponsiveContainer width="100%" height={300}>
         <ComposedChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -41,10 +46,10 @@ export function PredictionChart({ predictions, historicalConsumption }: Predicti
               border: '1px solid #e5e7eb',
               borderRadius: '8px',
             }}
-            formatter={(value: number | null) => value ? [`${value.toFixed(2)} kW`, ''] : null}
+            formatter={(value: any) => typeof value === 'number' ? [`${value.toFixed(2)} kW`, ''] : value}
           />
           <Legend />
-          {historicalConsumption && (
+          {historicalData && (
             <Bar 
               dataKey="historical" 
               fill="#fbbf24" 

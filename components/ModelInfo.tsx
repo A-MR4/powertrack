@@ -1,9 +1,9 @@
 import React from 'react';
+import { RegressionModel } from '@/lib/linearRegression';
 
 interface ModelInfoProps {
   rSquared: number;
-  slope: number;
-  intercept: number;
+  model: RegressionModel;
   sampleCount: number;
 }
 
@@ -13,7 +13,7 @@ const InfoIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export function ModelInfo({ rSquared, slope, intercept, sampleCount }: ModelInfoProps) {
+export function ModelInfo({ rSquared, model, sampleCount }: ModelInfoProps) {
   const accuracy = Math.round(rSquared * 100);
   const qualityStr = accuracy > 0.9 ? 'Excelente' : accuracy > 0.75 ? 'Buena' : 'Regular';
   const qualityColor = accuracy > 0.9 ? 'green' : accuracy > 0.75 ? 'amber' : 'orange';
@@ -25,18 +25,22 @@ export function ModelInfo({ rSquared, slope, intercept, sampleCount }: ModelInfo
         <div>
           <h3 className="text-lg font-semibold text-gray-900">Modelo de Predicción</h3>
           <p className="text-sm text-gray-600 mt-1">
-            Usa <span className="font-mono font-bold">Regresión Lineal</span> para predecir consumo futuro basado en patrones históricos.
+            Usa <span className="font-mono font-bold">Regresión cíclica</span> para capturar el patrón diario de consumo.
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-3 rounded-lg border border-gray-200">
+        <div className="bg-white p-3 rounded-lg border border-gray-200 md:col-span-2">
           <p className="text-xs text-gray-600 font-semibold">Fórmula</p>
-          <p className="text-sm font-mono font-bold text-gray-900 mt-1">
-            y = {slope.toFixed(3)}x + {intercept.toFixed(3)}
-          </p>
-          <p className="text-xs text-gray-500 mt-1">y = consumo, x = hora</p>
+          <div className="text-sm font-mono text-gray-900 mt-1 space-y-1">
+            <p>y = {model.intercept.toFixed(3)}</p>
+            <p>+ {model.cos1.toFixed(3)}·cos(2πx/24)</p>
+            <p>+ {model.sin1.toFixed(3)}·sin(2πx/24)</p>
+            <p>+ {model.cos2.toFixed(3)}·cos(4πx/24)</p>
+            <p>+ {model.sin2.toFixed(3)}·sin(4πx/24)</p>
+          </div>
+          <p className="text-xs text-gray-500 mt-2">x = hora del día</p>
         </div>
 
         <div className="bg-white p-3 rounded-lg border border-gray-200">
@@ -48,13 +52,9 @@ export function ModelInfo({ rSquared, slope, intercept, sampleCount }: ModelInfo
         </div>
 
         <div className="bg-white p-3 rounded-lg border border-gray-200">
-          <p className="text-xs text-gray-600 font-semibold">Pendiente</p>
-          <p className="text-sm font-bold text-gray-900 mt-1">
-            {slope > 0 ? '+' : ''}{slope.toFixed(3)} kW/h
-          </p>
-          <p className="text-xs text-gray-500 mt-1">
-            {slope > 0 ? 'Aumenta' : 'Disminuye'} con la hora
-          </p>
+          <p className="text-xs text-gray-600 font-semibold">Periodicidad</p>
+          <p className="text-sm font-bold text-gray-900 mt-1">2 armónicos</p>
+          <p className="text-xs text-gray-500 mt-1">Captura mañana + noche</p>
         </div>
 
         <div className="bg-white p-3 rounded-lg border border-gray-200">
@@ -66,7 +66,7 @@ export function ModelInfo({ rSquared, slope, intercept, sampleCount }: ModelInfo
 
       <div className="mt-4 p-3 bg-white border border-gray-200 rounded-lg">
         <p className="text-xs text-gray-700 leading-relaxed">
-          <span className="font-semibold">¿Cómo funciona?</span> El modelo analiza los patrones de consumo en 24 horas y calcula una línea de tendencia usando mínimos cuadrados. Esta línea permite predecir el consumo esperado para cualquier hora del día.
+          <span className="font-semibold">¿Cómo funciona?</span> El modelo aprovecha componentes sinusoidales para representar el ciclo diario de consumo y predecir picos en la mañana y la tarde.
         </p>
       </div>
     </div>
