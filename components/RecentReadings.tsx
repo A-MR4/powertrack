@@ -30,9 +30,9 @@ export function RecentReadings({ readings }: RecentReadingsProps) {
   const trendPositive = trend > 0;
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+    <div className="surface-card p-6 rounded-lg shadow-md border surface-border">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+        <h2 className="text-xl font-semibold text-surface-default flex items-center gap-2">
           <ClockIcon className="w-5 h-5" />
           Lecturas Recientes
         </h2>
@@ -50,19 +50,19 @@ export function RecentReadings({ readings }: RecentReadingsProps) {
         {readings.map((reading, index) => (
           <div 
             key={index}
-            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+            className="flex items-center justify-between p-3 surface-card-muted rounded-lg surface-card-muted-hover transition"
           >
             <div className="flex items-center gap-3 flex-1">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              <span className="font-mono text-sm font-semibold text-gray-700">
+              <span className="font-mono text-sm font-semibold text-surface-muted">
                 {reading.time}
               </span>
             </div>
             <div className="text-right">
-              <p className="font-bold text-gray-900">
+              <p className="font-bold text-surface-default">
                 {reading.consumption.toFixed(2)} kW
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-surface-muted">
                 {Math.round(reading.consumption * 1000)} W
               </p>
             </div>
@@ -70,8 +70,8 @@ export function RecentReadings({ readings }: RecentReadingsProps) {
         ))}
       </div>
 
-      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-        <p className="text-sm text-blue-900">
+      <div className="mt-4 p-3 surface-card-muted border surface-border rounded-lg">
+        <p className="text-sm text-surface-default">
           <span className="font-semibold">Info:</span> Estos datos se actualizan cada hora con lecturas reales del sensor ACS712 conectado al dispositivo IoT.
         </p>
       </div>

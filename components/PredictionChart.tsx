@@ -40,15 +40,15 @@ export function PredictionChart({ predictions, historicalData }: PredictionChart
   });
 
   return (
-    <div className="w-full bg-white p-6 rounded-lg shadow-md border border-gray-200">
+    <div className="w-full surface-card p-6 rounded-lg shadow-md border surface-border">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-gray-900">Predicción de Consumo ({hours}h)</h2>
+        <h2 className="text-xl font-semibold text-surface-default">Predicción de Consumo ({hours}h)</h2>
         <div className="flex items-center gap-2">
-          <label className="text-sm text-gray-600">Horizon:</label>
+          <label className="text-sm text-surface-muted">Horizon:</label>
           <select
             value={hours}
             onChange={(e) => setHours(Number(e.target.value))}
-            className="border rounded px-2 py-1 text-sm text-gray-600"
+            className="border rounded px-2 py-1 text-sm text-surface-muted"
           >
             <option value={3}>3h</option>
             <option value={6}>6h</option>
@@ -59,7 +59,7 @@ export function PredictionChart({ predictions, historicalData }: PredictionChart
       </div>
       <div className="flex items-center justify-between mb-4 gap-4">
         <div className="flex-1">
-          <label className="text-sm text-gray-600 mr-2">Start hour:</label>
+          <label className="text-sm text-surface-muted mr-2">Start hour:</label>
           <input
             type="range"
             className="no-fill-slider"
@@ -69,7 +69,7 @@ export function PredictionChart({ predictions, historicalData }: PredictionChart
             onChange={(e) => setStartIndex(Number(e.target.value))}
           />
         </div>
-        <div className="w-32 text-right text-sm text-gray-600">
+        <div className="w-32 text-right text-sm text-surface-muted">
           <span>From: </span>
           <strong>{visible[0] ? `${String(visible[0].hour).padStart(2, '0')}:00` : '--:--'}</strong>
         </div>
@@ -140,11 +140,14 @@ export function PredictionChart({ predictions, historicalData }: PredictionChart
           />
           <Tooltip 
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e5e7eb',
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--surface-border)',
+              color: 'var(--foreground)',
               borderRadius: '8px',
             }}
-            formatter={(value: any) => typeof value === 'number' ? [`${value.toFixed(2)} kW`, ''] : value}
+            formatter={(value: number | string | null) =>
+              typeof value === 'number' ? [`${value.toFixed(2)} kW`, ''] : ['', '']
+            }
           />
           <Legend />
           {historicalData && (

@@ -11,10 +11,10 @@ interface StatCardProps {
 }
 
 const colorStyles = {
-  blue: 'bg-blue-50 border-blue-200 text-blue-900',
-  green: 'bg-green-50 border-green-200 text-green-900',
-  amber: 'bg-amber-50 border-amber-200 text-amber-900',
-  red: 'bg-red-50 border-red-200 text-red-900',
+  blue: 'bg-blue-50 border-blue-200 text-blue-900 dark:bg-slate-900 dark:border-blue-700 dark:text-blue-200',
+  green: 'bg-green-50 border-green-200 text-green-900 dark:bg-slate-900 dark:border-green-700 dark:text-green-200',
+  amber: 'bg-amber-50 border-amber-200 text-amber-900 dark:bg-slate-900 dark:border-amber-600 dark:text-amber-300',
+  red: 'bg-red-50 border-red-200 text-red-900 dark:bg-slate-900 dark:border-red-600 dark:text-red-300',
 };
 
 const iconColors = {
@@ -55,7 +55,7 @@ export function StatCard({
   return (
     <div className={`p-6 rounded-lg border ${colorStyles[color]} shadow-sm`}>
       <div className="flex justify-between items-start mb-2">
-        <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+        <h3 className="text-sm font-medium text-slate-900 dark:text-slate-200">{title}</h3>
         {icon && (
           <div className={`${iconColors[color]} w-6 h-6`}>
             {icon}
@@ -65,11 +65,11 @@ export function StatCard({
       
       <div className="flex items-baseline gap-2">
         <span className="text-3xl font-bold">{value}</span>
-        {unit && <span className="text-lg text-gray-500">{unit}</span>}
+        {unit && <span className="text-lg text-slate-700 dark:text-slate-400">{unit}</span>}
       </div>
 
       {description && (
-        <p className="text-xs text-gray-600 mt-2">{description}</p>
+        <p className="text-xs text-slate-800 dark:text-slate-300 mt-2">{description}</p>
       )}
 
       {trend && (

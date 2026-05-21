@@ -14,8 +14,8 @@ export function ConsumptionChart({ data, title = "Consumo Histórico" }: Consump
   }));
 
   return (
-    <div className="w-full bg-white p-6 rounded-lg shadow-md border border-gray-200">
-      <h2 className="text-xl font-semibold mb-4 text-gray-900">{title}</h2>
+    <div className="w-full surface-card p-6 rounded-lg shadow-md border surface-border">
+      <h2 className="text-xl font-semibold mb-4 text-surface-default">{title}</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -31,8 +31,9 @@ export function ConsumptionChart({ data, title = "Consumo Histórico" }: Consump
           />
           <Tooltip 
             contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e5e7eb',
+              backgroundColor: 'var(--surface)',
+              border: '1px solid var(--surface-border)',
+              color: 'var(--foreground)',
               borderRadius: '8px',
             }}
             formatter={(value: number) => [`${value.toFixed(2)} kW`, 'Consumo']}

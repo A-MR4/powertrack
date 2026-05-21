@@ -19,22 +19,22 @@ export function generateMockConsumptionData(): ConsumptionData[] {
     1.4,  // 4h
     1.6,  // 5h
     3.2,  // 6h  - Mañana (inicio)
-    4.5,  // 7h
-    5.2,  // 8h  - Pico mañana
-    4.8,  // 9h
+    3,  // 7h
+    3,  // 8h  - Pico mañana
+    1,  // 9h
     3.9,  // 10h
     3.5,  // 11h
     3.8,  // 12h - Mediodía
-    4.1,  // 13h
+    2,  // 13h
     3.9,  // 14h
     3.6,  // 15h
     3.4,  // 16h
     3.7,  // 17h
-    4.9,  // 18h - Tarde-noche
-    5.8,  // 19h
-    6.2,  // 20h - Pico noche
-    5.5,  // 21h
-    4.3,  // 22h
+    2,  // 18h - Tarde-noche
+    3,  // 19h
+    3,  // 20h - Pico noche
+    3,  // 21h
+    2,  // 22h
     3.1,  // 23h
   ];
 

@@ -1,246 +1,129 @@
-# ESP32 + ACS712 Integration Guide
+﻿# ESP32 + ACS712 Integration Guide
 
-## Required Hardware
+## 1. Project Definition
 
-### Main Components
-- **ESP32 DevKit** (WiFi 2.4/5GHz)
-- **ACS712 5A current sensor**
-- **5V power supply**
-- **USB cable** for programming and monitoring
+PowerTrack is an energy monitoring system that combines IoT hardware and a web dashboard to measure, store, and predict electrical consumption.
 
-### Wiring
+- Objective: detect consumption patterns, hourly peaks, and provide actionable energy-saving recommendations.
+- Technical relevance: integrates ESP32 + ACS712 sensor hardware with a Next.js backend and regression-based prediction model.
+- Social relevance: helps users reduce electricity bills and lower energy waste in homes or small offices.
+- Innovation: combines real-time current sensing with prediction and alerting in a single, accessible platform.
 
-```
-ACS712          ESP32
-──────────────────────
-OUT      ────→  GPIO 35 (ADC)
-GND      ────→  GND
-+5V      ────→  5V
-```
+## 2. Required Materials
 
-## Firmware Requirements
+### Complete materials list
+- ESP32 DevKit board
+- ACS712 5A current sensor module (current sensor 1)
+- Dupont jumper wires
+- Stable 5V power supply for the ESP32
+- Test load (light bulb, resistor, or small motor)
+- USB cable for programming and serial monitoring
+- Computer with Arduino IDE or PlatformIO
+- Local WiFi network to send data to the dashboard
 
-- Arduino IDE 2.0+
-- ESP32 board package installed
-- WiFi SSID and password
+### Availability and cost
+- Components are widely available from electronics stores and online retailers.
+- The project uses low-cost hardware and common components.
+- The total cost is affordable compared to commercial energy monitoring systems.
 
-## Example ESP32 Sketch
+## 3. Hardware Setup
 
-```cpp
-#include <WiFi.h>
-#include <HTTPClient.h>
+### Current sensor 1 connection
 
-const char* ssid = "YOUR_SSID";
-const char* password = "YOUR_PASSWORD";
-// Replace with your computer's local IP address reachable from the ESP32
-const char* serverUrl = "http://192.168.x.x:3000/api/readings";
+The ACS712 sensor (current sensor 1) must be installed on the live conductor feeding the load.
 
-const int ACS_PIN = 35;
-const float SENSITIVITY = 0.186;
-const float OFFSET = 2500;
+- `OUT` → `GPIO 35` on the ESP32 (ADC input)
+- `GND` → `GND`
+- `VCC` → `5V`
 
-float currentA = 0;
-float powerW = 0;
-unsigned long lastReadTime = 0;
+The conductor should pass through the ACS712 sensor core. Do not connect the live wire directly to the ADC pin.
 
-void setup() {
-  Serial.begin(115200);
-  delay(100);
-  connectToWiFi();
-}
+### ESP32 programming
 
-void loop() {
-  if (millis() - lastReadTime >= 1000) {
-    readSensor();
-    lastReadTime = millis();
-  }
+The ESP32 reads the analog voltage from the ACS712, converts it into current using calibration constants, computes power consumption, and sends the reading to the backend API.
 
-  if (millis() % 3600000 == 0) {
-    sendToServer();
-  }
+### Sensor 1 usage details
 
-  delay(100);
-}
+- Sensor pin is configured as `const int ACS_PIN = 35`.
+- It reads instantaneous current in amperes.
+- The firmware converts the current reading into power consumption in kW.
+- The ESP32 sends the payload fields `sensorId`, `current`, `consumption`, and `timestamp` to the backend.
 
-void connectToWiFi() {
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
+## 4. Data Storage
 
-  int attempts = 0;
-  while (WiFi.status() != WL_CONNECTED && attempts < 20) {
-    delay(500);
-    Serial.print(".");
-    attempts++;
-  }
+### Database structure
 
-  if (WiFi.status() == WL_CONNECTED) {
-    Serial.println("WiFi connected");
-  } else {
-    Serial.println("WiFi connection failed");
-  }
-}
+Each reading includes the following fields:
 
-void readSensor() {
-  int rawValue = analogRead(ACS_PIN);
-  float voltage = (rawValue * 3300.0) / 4095.0;
-  float sensorVoltage = voltage - OFFSET;
-  currentA = sensorVoltage / SENSITIVITY;
-  powerW = currentA * 230.0;
+- `timestamp` (ISO 8601)
+- `sensorId` (sensor identifier)
+- `current` (A)
+- `consumption` (kW)
 
-  if (powerW < 0) powerW = 0;
+Example record:
 
-  Serial.print("Raw: ");
-  Serial.print(rawValue);
-  Serial.print(" | Voltage: ");
-  Serial.print(voltage);
-  Serial.print(" mV | Current: ");
-  Serial.print(currentA);
-  Serial.print(" A | Power: ");
-  Serial.print(powerW);
-  Serial.println(" W");
-}
-
-void sendToServer() {
-  if (WiFi.status() == WL_CONNECTED) {
-    HTTPClient http;
-    http.begin(serverUrl);
-    http.addHeader("Content-Type", "application/json");
-
-    String jsonData = "{\"consumption\": " + String(powerW / 1000.0) +
-                      ", \"current\": " + String(currentA) +
-                      ", \"timestamp\": \"" + getTimestamp() + "\"}";
-
-    int httpResponseCode = http.POST(jsonData);
-    if (httpResponseCode > 0) {
-      Serial.print("Response code: ");
-      Serial.println(httpResponseCode);
-    } else {
-      Serial.print("HTTP error: ");
-      Serial.println(httpResponseCode);
-    }
-    http.end();
-  }
-}
-
-String getTimestamp() {
-  // The backend expects an ISO 8601 timestamp, e.g. 2026-05-18T21:00:00Z.
-  // Use a real clock / NTP sync in a production deployment.
-  return String("2026-05-18T21:00:00Z");
+```json
+{
+  "timestamp": "2026-05-18T21:00:00Z",
+  "sensorId": "ACS712_1",
+  "current": 18.5,
+  "consumption": 4.25
 }
 ```
 
-## Sensor Calibration
+### Connection and storage
 
-### 1. Zero load measurement
+- The ESP32 sends data to `POST /api/readings`.
+- The backend stores readings in `data/readings.json`.
+- `GET /api/readings` returns stored readings for the frontend.
+- The backend and API are cloud-ready, and the same architecture can be deployed to a cloud provider (such as Vercel or any Node.js host).
+
+## 5. Current Sensor Calibration
+
+### Zero-load measurement
 
 ```cpp
 int zeroOffset = analogRead(ACS_PIN);
 ```
 
-### 2. Known load measurement
+### Known-load measurement
 
 ```cpp
 int oneAmpValue = analogRead(ACS_PIN);
 ```
 
-### 3. Adjust constants
+### Calibration constants
 
 ```cpp
 const float SENSITIVITY = 0.186;
-const float OFFSET = 2500;
+const float OFFSET = 2500.0;
 ```
 
-## Troubleshooting
+Adjust `OFFSET` and `SENSITIVITY` if measured current values differ from the known load.
 
-- **Weird values**: Check wiring and sensor power
-- **WiFi fails**: Verify SSID/password and signal strength
-- **Fluctuating readings**: Use moving-average filtering
+## 6. Testing and Validation
 
-### Example moving-average filter
+- Verify the ESP32 connects successfully to WiFi.
+- Confirm readings are sent successfully to the backend API.
+- Check `data/readings.json` for valid stored records.
+- Run `npm run dev` and open the dashboard in the browser.
+- Validate that the historical chart and prediction chart update with received data.
+- Confirm the peak alert and recommendation components render correctly.
 
-```cpp
-const int SAMPLE_SIZE = 10;
-float samples[SAMPLE_SIZE];
-int sampleIndex = 0;
+## 7. Dashboard Usage
 
-float getFilteredReading() {
-  samples[sampleIndex] = currentA;
-  sampleIndex = (sampleIndex + 1) % SAMPLE_SIZE;
+- The dashboard displays current consumption, 24h average, daily peak, and 1h prediction.
+- It helps detect energy usage peaks and provides actionable recommendations.
+- Sensor 1 data appears in recent readings and storage records.
 
-  float sum = 0;
-  for (int i = 0; i < SAMPLE_SIZE; i++) {
-    sum += samples[i];
-  }
-  return sum / SAMPLE_SIZE;
-}
-```
+## 8. Security Notes
 
-## Backend Integration
+- Do not expose the Next.js dashboard or API to the open internet without proper protection.
+- Use HTTPS in production deployments.
+- Protect WiFi credentials and avoid hard-coding them in firmware.
 
-### API endpoint
-
-Create `app/api/readings/route.ts` with GET and POST support.
-
-### Example request
-
-Send a new reading with CURL:
-
-```bash
-curl -X POST http://localhost:3000/api/readings \
-  -H "Content-Type: application/json" \
-  -d '{"consumption":4.25,"current":18.5,"timestamp":"2026-05-18T21:00:00Z"}'
-```
-
-### Example script
-
-Run the sample client script:
-
-```bash
-npm run post-reading-example
-```
-
-### Example JSON payload
-
-```json
-{
-  "consumption": 4.25,
-  "current": 18.5,
-  "timestamp": "2026-05-18T21:00:00Z"
-}
-```
-
-### ESP32 payload example
-
-```cpp
-String jsonData = "{\"consumption\":" + String(powerW / 1000.0) +
-                  ",\"current\":" + String(currentA) +
-                  ",\"timestamp\":\"" + getTimestamp() + "\"}";
-```
-
-## Real-time monitoring
-
-### Serial monitor
-
-- Baud rate: 115200
-- Line endings: CR + LF
-
-### Dashboard
-
-- Hourly updates
-- 24h historical charts
-- Real-time prediction chart
-
-## Security Notes
-
-- Use HTTPS in production
-- Encrypt WiFi credentials
-- Validate incoming JSON data
-- Add device authentication
-- Add rate limiting
-
-## Resources
+## 9. Resources
 
 - [ACS712 Datasheet](https://www.allegromicro.com/en/products/sense/current-sensor-ics/zero-to-fifty-amp-integrated-conductor-sensor-ics/acs712)
 - [ESP32 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
 - [Arduino IDE Guide](https://docs.arduino.cc/software/ide-v2/tutorials/getting-started)
-

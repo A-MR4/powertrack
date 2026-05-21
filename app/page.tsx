@@ -7,6 +7,7 @@ import { StatsGrid } from '@/components/StatCard';
 import { PeakAlert, Recommendations } from '@/components/PeakAlert';
 import { RecentReadings } from '@/components/RecentReadings';
 import { ModelInfo } from '@/components/ModelInfo';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { 
   calculateLinearRegression, 
   generateHourlyPredictions, 
@@ -161,18 +162,21 @@ export default function Home() {
   }, [backendReadings]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
       {/* Header */}
-      <header className="bg-gradient-to-r from-gray-800 to-gray-600 text-white shadow-lg">
+      <header className="header-bg text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-8">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="text-4xl font-bold">⚡ PowerTrack</h1>
               <p className="text-blue-100 mt-2">Predicción inteligente de consumo eléctrico con IA</p>
             </div>
-            <div className="text-right">
-              <p className="text-sm text-blue-100">Última actualización</p>
-              <p className="text-lg font-semibold">{currentTime}</p>
+            <div className="flex items-center justify-end gap-4">
+              <div className="text-right">
+                <p className="text-sm text-blue-100">Última actualización</p>
+                <p className="text-lg font-semibold">{currentTime}</p>
+              </div>
+              <ThemeToggle />
             </div>
           </div>
         </div>
@@ -196,12 +200,12 @@ export default function Home() {
         {/* Alerts Section */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">Estado de Alertas</h2>
+            <h2 className="text-2xl font-bold mb-4 text-surface-default">Estado de Alertas</h2>
             <PeakAlert peaks={peaks} />
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold mb-4 text-gray-900">Recomendaciones</h2>
+            <h2 className="text-2xl font-bold mb-4 text-surface-default">Recomendaciones</h2>
             <Recommendations recommendations={recommendations} />
           </div>
         </section>
@@ -233,30 +237,30 @@ export default function Home() {
         </section>
 
         {/* Information Section */}
-        <section className="bg-blue-50 border border-blue-200 rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">📡 Arquitectura del Sistema</h2>
+        <section className="surface-card-muted border surface-border rounded-lg p-8">
+          <h2 className="text-2xl font-bold text-surface-default mb-4">📡 Arquitectura del Sistema</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <div className="bg-white p-4 rounded-lg border border-blue-200">
-              <h3 className="font-semibold text-blue-900 mb-2">🔌 Hardware IoT</h3>
-              <ul className="text-sm text-gray-700 space-y-1">
+            <div className="surface-card p-4 rounded-lg border surface-border">
+              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">🔌 Hardware IoT</h3>
+              <ul className="text-sm text-surface-muted space-y-1">
                 <li>• <span className="font-mono">ACS712</span> - Sensor de corriente</li>
                 <li>• <span className="font-mono">ESP32</span> - Controlador</li>
                 <li>• WiFi integrado para conectividad</li>
               </ul>
             </div>
 
-            <div className="bg-white p-4 rounded-lg border border-blue-200">
-              <h3 className="font-semibold text-blue-900 mb-2">🤖 Algoritmo IA</h3>
-              <ul className="text-sm text-gray-700 space-y-1">
+            <div className="surface-card p-4 rounded-lg border surface-border">
+              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">🤖 Algoritmo IA</h3>
+              <ul className="text-sm text-surface-muted space-y-1">
                 <li>• <span className="font-mono">Regresión Lineal</span> (Mínimos Cuadrados)</li>
                 <li>• Parámetros: hora del día + consumo</li>
                 <li>• R² = {(rSquared * 100).toFixed(1)}% (precisión)</li>
               </ul>
             </div>
 
-            <div className="bg-white p-4 rounded-lg border border-blue-200">
-              <h3 className="font-semibold text-blue-900 mb-2">💡 Aplicaciones</h3>
-              <ul className="text-sm text-gray-700 space-y-1">
+            <div className="surface-card p-4 rounded-lg border surface-border">
+              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">💡 Aplicaciones</h3>
+              <ul className="text-sm text-surface-muted space-y-1">
                 <li>• Detectar picos de consumo</li>
                 <li>• Optimizar costos eléctricos</li>
                 <li>• Mantenimiento predictivo</li>
@@ -264,8 +268,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-lg border border-blue-200">
-            <p className="text-sm text-gray-700 leading-relaxed">
+          <div className="surface-card p-4 rounded-lg border surface-border">
+            <p className="text-sm text-surface-muted leading-relaxed">
               <span className="font-semibold">🎯 Flujo de Datos:</span> El sensor ACS712 mide la corriente en tiempo real → ESP32 procesa los datos → 
               se envían a través de WiFi → el modelo de regresión lineal analiza patrones → PowerTrack muestra predicciones y recomendaciones personalizadas.
             </p>
@@ -279,7 +283,7 @@ export default function Home() {
           <p className="text-sm">
             <span className="font-semibold">PowerTrack v1.0</span> - Sistema de Predicción de Consumo Eléctrico
           </p>
-          <p className="text-xs text-gray-500 mt-2">
+          <p className="text-xs text-surface-muted mt-2">
             Desarrollado con Next.js, React y IA (Regresión Lineal)
           </p>
         </div>

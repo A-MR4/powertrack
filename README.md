@@ -31,6 +31,10 @@ npm run dev
 
 Open http://localhost:3000 in your browser.
 
+### Documentation
+- Hardware setup and current sensor instructions: `docs/ESP32_SETUP.md`
+- Architecture, data flow and model design: `docs/TECHNICAL.md`
+
 ### Production build
 ```bash
 npm run build

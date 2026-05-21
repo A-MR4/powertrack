@@ -44,19 +44,19 @@
   {
     "id": "r-8",
     "timestamp": "2026-05-16T07:00:00Z",
-    "consumption": 4.4,
+    "consumption": 3,
     "current": 19.13
   },
   {
     "id": "r-9",
     "timestamp": "2026-05-16T08:00:00Z",
-    "consumption": 5.3,
+    "consumption": 2,
     "current": 23.04
   },
   {
     "id": "r-10",
     "timestamp": "2026-05-16T09:00:00Z",
-    "consumption": 4.85,
+    "consumption": 3,
     "current": 21.09
   },
   {
@@ -110,25 +110,25 @@
   {
     "id": "r-19",
     "timestamp": "2026-05-16T18:00:00Z",
-    "consumption": 4.9,
+    "consumption": 3.2,
     "current": 21.3
   },
   {
     "id": "r-20",
     "timestamp": "2026-05-16T19:00:00Z",
-    "consumption": 5.75,
+    "consumption": 3.5,
     "current": 25
   },
   {
     "id": "r-21",
     "timestamp": "2026-05-16T20:00:00Z",
-    "consumption": 6.1,
+    "consumption": 3.1,
     "current": 26.52
   },
   {
     "id": "r-22",
     "timestamp": "2026-05-16T21:00:00Z",
-    "consumption": 5.4,
+    "consumption": 2.7,
     "current": 23.48
   },
   {
@@ -182,103 +182,103 @@
   {
     "id": "r-31",
     "timestamp": "2026-05-17T06:00:00Z",
-    "consumption": 3.4,
+    "consumption": 3.1,
     "current": 14.78
   },
   {
     "id": "r-32",
     "timestamp": "2026-05-17T07:00:00Z",
-    "consumption": 4.7,
+    "consumption": 3,
     "current": 20.43
   },
   {
     "id": "r-33",
     "timestamp": "2026-05-17T08:00:00Z",
-    "consumption": 5.5,
+    "consumption": 3,
     "current": 23.91
   },
   {
     "id": "r-34",
     "timestamp": "2026-05-17T09:00:00Z",
-    "consumption": 5.15,
+    "consumption": 3,
     "current": 22.39
   },
   {
     "id": "r-35",
     "timestamp": "2026-05-17T10:00:00Z",
-    "consumption": 4.1,
+    "consumption": 3,
     "current": 17.83
   },
   {
     "id": "r-36",
     "timestamp": "2026-05-17T11:00:00Z",
-    "consumption": 3.7,
+    "consumption": 3.2,
     "current": 16.09
   },
   {
     "id": "r-37",
     "timestamp": "2026-05-17T12:00:00Z",
-    "consumption": 3.95,
+    "consumption": 3.1,
     "current": 17.17
   },
   {
     "id": "r-38",
     "timestamp": "2026-05-17T13:00:00Z",
-    "consumption": 4.3,
+    "consumption": 2.3,
     "current": 18.7
   },
   {
     "id": "r-39",
     "timestamp": "2026-05-17T14:00:00Z",
-    "consumption": 4.05,
+    "consumption": 3,
     "current": 17.61
   },
   {
     "id": "r-40",
     "timestamp": "2026-05-17T15:00:00Z",
-    "consumption": 3.8,
+    "consumption": 3.1,
     "current": 16.52
   },
   {
     "id": "r-41",
     "timestamp": "2026-05-17T16:00:00Z",
-    "consumption": 3.45,
+    "consumption": 3.1,
     "current": 15
   },
   {
     "id": "r-42",
     "timestamp": "2026-05-17T17:00:00Z",
-    "consumption": 3.85,
+    "consumption": 3.15,
     "current": 16.74
   },
   {
     "id": "r-43",
     "timestamp": "2026-05-17T18:00:00Z",
-    "consumption": 5.05,
+    "consumption": 3,
     "current": 21.96
   },
   {
     "id": "r-44",
     "timestamp": "2026-05-17T19:00:00Z",
-    "consumption": 6.2,
+    "consumption": 2.67,
     "current": 26.96
   },
   {
     "id": "r-45",
     "timestamp": "2026-05-17T20:00:00Z",
-    "consumption": 6.8,
+    "consumption": 3,
     "current": 29.57
   },
   {
     "id": "r-46",
     "timestamp": "2026-05-17T21:00:00Z",
-    "consumption": 5.9,
+    "consumption": 3,
     "current": 25.65
   },
   {
     "id": "r-47",
     "timestamp": "2026-05-17T22:00:00Z",
-    "consumption": 4.45,
+    "consumption": 3.05,
     "current": 19.35
   },
   {
@@ -289,7 +289,7 @@
   },
   {
     "id": "1779158355649-49",
-    "consumption": 4.75,
+    "consumption": 3.1,
     "current": 19.8,
     "timestamp": "2026-05-19T02:39:14.795Z"
   }

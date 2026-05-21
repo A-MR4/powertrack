@@ -1,247 +1,154 @@
-# PowerTrack Technical Documentation
+﻿# PowerTrack Technical Documentation
 
-## Overview
+## 1. Project Definition
 
-PowerTrack is a full-stack energy monitoring and prediction system that combines:
-1. IoT sensors (ACS712 + ESP32)
-2. A cyclic regression model
-3. A real-time dashboard built on Next.js and React
+PowerTrack is a full-stack energy monitoring and prediction system that combines IoT sensing, local data storage, and a web dashboard.
 
-## System Architecture
+- Objective: monitor electrical consumption, detect peaks, and provide actionable energy-saving recommendations.
+- Technical relevance: collects sensor data with ESP32 + ACS712 and processes it with a Next.js dashboard and regression model.
+- Social relevance: enables users to improve energy efficiency and reduce electricity costs.
+- Applicability: suitable for homes, small offices, and energy efficiency monitoring solutions.
 
+## 2. Required Materials
+
+### Complete materials list
+- ESP32 DevKit
+- ACS712 5A current sensor
+- Jumper wires
+- Stable 5V power supply
+- Test load (light bulb, resistor, motor)
+- USB cable for programming
+- Computer with Arduino IDE or PlatformIO
+- Local WiFi network
+
+### Availability and cost
+- Components are widely available and affordable.
+- The design uses low-cost hardware compared to commercial energy monitors.
+- The project uses common components that are easy to source.
+
+## 3. Hardware Setup
+
+### Current sensor installation
+
+The ACS712 sensor is installed on the live conductor feeding the load and connected to the ESP32 ADC pin.
+
+- `OUT` → `GPIO 35`
+- `GND` → `GND`
+- `VCC` → `5V`
+
+### Sensor usage
+
+- The sensor is defined in code as `const int ACS_PIN = 35`.
+- It measures current in amperes and provides the analog reading to the ESP32.
+- The system converts current to power consumption and tracks usage over time.
+
+## 4. Data Storage
+
+### Database structure
+
+Readings are stored in `data/readings.json` with the following fields:
+
+- `timestamp`: ISO 8601 timestamp
+- `sensorId`: sensor identifier (`ACS712_1`)
+- `current`: measured current in amps
+- `consumption`: calculated consumption in kW
+
+Example:
+
+```json
+{
+  "timestamp": "2026-05-18T21:00:00Z",
+  "sensorId": "ACS712_1",
+  "current": 18.5,
+  "consumption": 4.25
+}
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                       POWERTRACK SYSTEM                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  HARDWARE LAYER (IoT)          BACKEND LAYER       UI LAYER   │
-│  ─────────────────────         ─────────────       ────────   │
-│  ┌──────────────────┐          ┌──────────────┐    ┌────────┐ │
-│  │  ACS712 Sensor   │          │  Next.js API │    │ React  │ │
-│  │  (Current meter) │  WiFi    │  (Node.js)   │ ── │ 19.2.4 │ │
-│  └────────┬─────────┘      ┌───→              │    └────────┘ │
-│           │                │   │  Model Engine│       │        │
-│  ┌────────▼─────────┐      │   │  (Cyclic)    │       │        │
-│  │  ESP32 Control   │──────┘   └──────────────┘       │        │
-│  │  (WiFi Module)   │                                 │        │
-│  └──────────────────┘         Real-time Updates ──────┘        │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
 
-## Core Modules
+### Data flow
 
-### 1. Cyclic Regression Model (`lib/linearRegression.ts`)
+- ESP32 sends readings to `POST /api/readings`.
+- The backend stores the readings in JSON.
+- Frontend retrieves readings from `GET /api/readings`.
+- The API architecture is cloud-ready and can be deployed to a Node.js cloud host.
 
-#### Primary Functions
+## 5. AI Model Development
 
-```typescript
-calculateLinearRegression(data: ConsumptionData[]): RegressionModel
-predictConsumption(model: RegressionModel, hour: number): number
-calculateRSquared(data: ConsumptionData[], model: RegressionModel): number
-generateHourlyPredictions(model: RegressionModel, currentHour: number): Prediction[]
-```
+### Data preparation
 
-#### Model Design
+- Historical consumption data is used as the input for model training.
+- `lib/mockData.ts` generates and cleans sample data for training and testing.
+- The system prepares hourly data with timestamps and consumption values.
 
-The current model uses hourly cyclic features. Instead of a simple straight line, it fits coefficients for:
+### Model selection and training
+
+The project uses a cyclic regression model with these features:
 - `intercept`
-- `cos(2πh / 24)`
-- `sin(2πh / 24)`
-- `cos(4πh / 24)`
-- `sin(4πh / 24)`
+- `cos(2πh/24)`
+- `sin(2πh/24)`
+- `cos(4πh/24)`
+- `sin(4πh/24)`
 
-This structure captures daily consumption cycles and improves prediction accuracy for morning and evening peaks.
+This approach captures daily consumption cycles and improves hourly forecast accuracy.
 
-#### Metric: R²
+### Validation and tuning
 
-```
-R² = 1 - (SS_res / SS_tot)
-```
+- The model calculates R² using `calculateRSquared()`.
+- R² is displayed in the dashboard to indicate prediction quality.
+- The model can be tuned by adjusting the feature set and training data.
 
-- `SS_res` = Σ(y_actual - y_predicted)²
-- `SS_tot` = Σ(y_actual - y_mean)²
-- Range: 0 to 1
+## 6. User Interface
 
-Interpretation:
-- > 0.9: Excellent
-- 0.75-0.9: Good
-- 0.5-0.75: Acceptable
-- < 0.5: Needs review
+### Design
 
----
+- Responsive dashboard with intuitive cards and charts.
+- Presents current consumption, average usage, peak load, and forecast values.
+- Includes a historical consumption chart and a prediction chart.
 
-### 2. Demo Data Generator (`lib/mockData.ts`)
+### Notifications and alerts
 
-#### Functions
+- `PeakAlert` shows consumption warnings and critical peak alerts.
+- `Recommendations` provides energy-saving suggestions based on predicted usage.
+- The interface updates in real time as new readings are received.
 
-```typescript
-generateMockConsumptionData(): ConsumptionData[]
-getRecentReadings(): Reading[]
-calculateConsumptionStats(data: ConsumptionData[]): Stats
-detectPeaks(data: ConsumptionData[], threshold?: number): Peak[]
-generateSavingsRecommendations(data: ConsumptionData[], predictions: any[]): Recommendation[]
-```
+## 7. Testing and Validation
 
-#### Simulated Consumption Pattern
+### Functional tests
 
-```
-Hour   Base Consumption   Description
-00-06  1-2 kW             Night low usage
-06-10  4-5 kW             Morning rise
-12-17  3-4 kW             Afternoon moderate usage
-18-23  5-6 kW             Evening peak
-```
+- Confirm the ESP32 can connect to WiFi and send data.
+- Verify the backend receives and stores readings correctly.
+- Check that the frontend visualizes readings and predictions accurately.
+- Ensure `data/readings.json` contains valid entries.
 
-Noise: ±15% to make data feel realistic.
+### Model accuracy
 
----
+- Validate the model using R² and historical data comparisons.
+- Test the model under different load patterns and usage conditions.
+- Adjust the model if accuracy is below expectations.
 
-### 3. Local Persistence (`lib/db.ts`)
+## 8. Documentation
 
-- Stores hourly readings in `data/readings.json`
-- Provides `getReadings()` and `addReading()` for API integration
-- Used by `app/api/readings/route.ts`
+### Technical documentation
 
-### 4. API Route (`app/api/readings/route.ts`)
+- `README.md` gives an overview and usage instructions.
+- `docs/ESP32_SETUP.md` provides hardware setup and sensor usage guidance.
+- `docs/TECHNICAL.md` explains architecture, data flow, and model design.
 
-Supported operations:
-- `GET /api/readings` - return stored readings
-- `POST /api/readings` - add a new reading from ESP32 or test client
+### Presentation
 
-Example payload:
+- Includes clear architecture descriptions and API examples.
+- Provides step-by-step guidance for hardware setup and deployment.
 
-```json
-{
-  "consumption": 4.8,
-  "current": 19.6,
-  "timestamp": "2026-05-18T21:00:00Z"
-}
-```
+## 9. Application Flow
 
----
+1. The ESP32 reads current from the ACS712 sensor.
+2. It calculates power consumption and formats a JSON payload.
+3. It sends the payload to the Next.js backend.
+4. The backend stores the data in `data/readings.json`.
+5. The frontend fetches readings and generates predictions.
 
-## React Components
+## 10. Future improvements
 
-#### ConsumptionChart
-- Prop: `data: ConsumptionData[]`
-- Renders 24-hour historical consumption as a line chart
-
-#### PredictionChart
-- Props: `predictions`, `historicalData?`
-- Renders the forecast aligned to the same hourly timestamps
-
-#### StatCard / StatsGrid
-- Render current, average, peak, and predicted values
-
-#### PeakAlert / Recommendations
-- Display peak alerts and energy-saving suggestions
-
-#### ModelInfo
-- Display model parameters and R² metric
-
-#### RecentReadings
-- Show the last four readings with trend direction
-
----
-
-## Data Flow
-
-### Initialization
-
-```text
-App mount
-  → load stored readings or fallback mock data
-  → build the prediction model
-  → generate next 24-hour forecast
-  → render dashboard
-```
-
-### Real-time pipeline
-
-```text
-ACS712 sensor → ESP32 → WiFi → API endpoint → local JSON DB
-         ↓                                      ↓
-    request data                              frontend fetch
-         ↓                                      ↓
-    update model                           render new forecast
-```
-
----
-
-## API Reference
-
-### `GET /api/readings`
-Returns stored readings ordered by timestamp.
-
-Example response:
-
-```json
-{
-  "readings": [ ... ]
-}
-```
-
-### `POST /api/readings`
-Adds a new hourly reading.
-
-Example request:
-
-```bash
-curl -X POST http://localhost:3000/api/readings \
-  -H "Content-Type: application/json" \
-  -d '{"consumption":4.25,"current":18.5,"timestamp":"2026-05-18T21:00:00Z"}'
-```
-
-Example response:
-
-```json
-{
-  "reading": {
-    "id": "...",
-    "timestamp": "2026-05-18T21:00:00Z",
-    "consumption": 4.25,
-    "current": 18.5
-  }
-}
-```
-
----
-
-## Why cyclic regression?
-
-A plain linear model can only learn a single trend. The current consumption pattern is cyclic: low at night, higher in the morning, a midday lull, and a strong evening peak.
-
-A harmonic regression model captures this daily cycle by adding cosine and sine features. This makes the forecast more realistic for hourly consumption.
-
----
-
-## Future Improvements
-
-### Short term
-- Add user authentication
-- Improve API error handling
-- Store historical data for multiple days
-
-### Mid term
-- Add anomaly detection
-- Add advanced time-series models (Prophet, XGBoost)
-- Add exportable reports
-
-### Long term
-- Add multi-device support
-- Add notifications (email/SMS)
-- Add a production-grade database
-
----
-
-## References
-
-- [Recharts](https://recharts.org/)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Time series forecasting](https://otexts.com/fpp2/)
-- [ACS712 Datasheet](https://www.allegromicro.com/)
-
----
-
-*Updated to English and aligned with the latest model and local storage features.*
+- Add authentication and improved API security.
+- Support multiple sensors and sensor identifiers.
+- Use a production-grade cloud database.
+- Add advanced anomaly detection and reporting.
