@@ -12,8 +12,8 @@ PowerTrack is an energy monitoring system that combines IoT hardware and a web d
 ## 2. Required Materials
 
 ### Complete materials list
-- ESP32 DevKit board
-- ACS712 5A current sensor module (current sensor 1)
+- ESP32 DevKit board 3 for $460 in Amazon
+- ACS712 5A current sensor module (current sensor 1) 5 for $200 in Amazon
 - Dupont jumper wires
 - Stable 5V power supply for the ESP32
 - Test load (light bulb, resistor, or small motor)
@@ -81,26 +81,184 @@ Example record:
 ## 5. Current Sensor Calibration
 
 ### Zero-load measurement
-
+Zero-load measurement is the process of determining the baseline output of the ACS712 sensor when no current is flowing through it. Ideally, the sensor outputs a voltage at its midpoint (around 1.65 V for a 5 V system), but in practice this value varies slightly due to noise and manufacturing differences. By measuring this offset with no load connected, the system can establish a reference point that is later subtracted from all readings, ensuring that the calculated current is accurate and not biased by sensor drift.
 ```cpp
 int zeroOffset = analogRead(ACS_PIN);
 ```
 
 ### Known-load measurement
-
+Known load measurement involves testing the system using a device with a predictable and stable current consumption, such as a light bulb or resistor. By comparing the sensor’s measured output with the actual expected current, it is possible to evaluate the accuracy of the system. This step helps verify whether the sensor readings match real-world values and is essential for adjusting calibration parameters to reduce measurement error.
 ```cpp
 int oneAmpValue = analogRead(ACS_PIN);
 ```
 
 ### Calibration constants
-
+Calibration constants are values used to convert the raw analog readings from the ACS712 into accurate current measurements. The two main constants are the offset (zero-load voltage) and the sensitivity (volts per ampere). The offset corrects for the sensor’s baseline output, while the sensitivity determines how much the voltage changes per unit of current. These constants may need to be adjusted experimentally to match real conditions, ensuring that the system provides reliable and precise measurements over time.
 ```cpp
-const float SENSITIVITY = 0.186;
-const float OFFSET = 2500.0;
+float calibrateOffset() {
+  float sum = 0;
+
+  Serial.println("Calibrating... Make sure NO load is connected!");
+
+  delay(3000); // time for you to disconnect load
+
+  for (int i = 0; i < 2000; i++) {
+    float adc = analogRead(pin);
+    float voltage = adc * (Config::VREF / Config::ADC_MAX);
+    sum += voltage;
+    delay(2);
+  }
+
+  float offset = sum / 2000.0;
+
+  Serial.print("Detected OFFSET: ");
+  Serial.println(offset, 4);
+
+  return offset;
+}
 ```
 
 Adjust `OFFSET` and `SENSITIVITY` if measured current values differ from the known load.
 
+```c
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <time.h>
+
+// ------------------ Config Class ------------------
+class Config {
+public:
+  static constexpr const char* SSID = "YOUR_WIFI";
+  static constexpr const char* PASSWORD = "YOUR_PASSWORD";
+  static constexpr const char* SERVER = "http://YOUR_SERVER_IP:3000/api/readings";
+
+  static constexpr int ACS_PIN = 35;
+  static constexpr float VREF = 3.3;
+  static constexpr float ADC_MAX = 4095.0;
+
+  static constexpr float VOLTAGE = 127.0;
+};
+
+// ------------------ Sensor Class ------------------
+class ACS712 {
+private:
+  float offset;
+  float sensitivity;
+  int pin;
+  int samples;
+
+public:
+  ACS712(int pin, float offset, float sensitivity, int samples = 1000)
+    : pin(pin), offset(offset), sensitivity(sensitivity), samples(samples) {}
+
+  float readCurrent() {
+    float sum = 0;
+
+    for (int i = 0; i < samples; i++) {
+      float adc = analogRead(pin);
+      float voltage = adc * (Config::VREF / Config::ADC_MAX);
+      float current = (voltage - offset) / sensitivity;
+
+      sum += current * current;
+      delayMicroseconds(200);
+    }
+
+    return sqrt(sum / samples);
+  }
+};
+
+// ------------------ Sensor Instance ------------------
+ACS712 sensor(Config::ACS_PIN, 1.65, 0.185);
+
+// ------------------ ID Counter ------------------
+int readingCounter = 1;
+
+// ------------------ Time Functions ------------------
+String getISOTime() {
+  time_t now = time(nullptr);
+  struct tm* timeinfo = gmtime(&now);
+
+  char buffer[30];
+  strftime(buffer, sizeof(buffer), "%Y-%m-%dT%H:%M:%SZ", timeinfo);
+  return String(buffer);
+}
+
+// ------------------ Network Functions ------------------
+void connectWiFi() {
+  WiFi.begin(Config::SSID, Config::PASSWORD);
+
+  Serial.print("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nConnected!");
+}
+
+void setupTime() {
+  configTime(0, 0, "pool.ntp.org");
+
+  Serial.print("Syncing time");
+  while (time(nullptr) < 100000) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nTime synced!");
+}
+
+// ------------------ Send Data ------------------
+void sendReading(float current, float power) {
+  if (WiFi.status() != WL_CONNECTED) return;
+
+  HTTPClient http;
+  http.begin(Config::SERVER);
+  http.addHeader("Content-Type", "application/json");
+
+  String id = "r-" + String(readingCounter++);
+  String timestamp = getISOTime();
+
+  String json = "{";
+  json += "\"id\":\"" + id + "\",";
+  json += "\"timestamp\":\"" + timestamp + "\",";
+  json += "\"consumption\":" + String(power, 3) + ",";
+  json += "\"current\":" + String(current, 3);
+  json += "}";
+
+  Serial.println("Sending JSON:");
+  Serial.println(json);
+
+  int response = http.POST(json);
+
+  Serial.print("HTTP Response: ");
+  Serial.println(response);
+
+  http.end();
+}
+
+// ------------------ Arduino Setup ------------------
+void setup() {
+  Serial.begin(115200);
+
+  connectWiFi();
+  setupTime();
+}
+
+// ------------------ Arduino Loop ------------------
+void loop() {
+  float current = sensor.readCurrent();
+  float power = (current * Config::VOLTAGE) / 1000.0;
+
+  Serial.print("Current: ");
+  Serial.print(current);
+  Serial.print(" A | Power: ");
+  Serial.print(power);
+  Serial.println(" kW");
+
+  sendReading(current, power);
+
+  delay(3600000);
+}
+```
 ## 6. Testing and Validation
 
 - Verify the ESP32 connects successfully to WiFi.
