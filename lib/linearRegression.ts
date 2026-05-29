@@ -145,7 +145,7 @@ export function calculateRSquared(data: ConsumptionData[], model: RegressionMode
     ssTot += Math.pow(point.consumption - meanY, 2);
   });
 
-  return 1 - ssRes / (ssTot || 1);
+  return 1 - ssRes / (ssTot || 1e-12);
 }
 
 /**

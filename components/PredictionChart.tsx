@@ -42,7 +42,7 @@ export function PredictionChart({ predictions, historicalData }: PredictionChart
   return (
     <div className="w-full surface-card p-6 rounded-lg shadow-md border surface-border">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-surface-default">Predicción de Consumo ({hours}h)</h2>
+        <h2 className="text-xl font-semibold text-surface-default">Predicción de Consumo</h2>
         <div className="flex items-center gap-2">
           <label className="text-sm text-surface-muted">Horizon:</label>
           <select

@@ -1,5 +1,7 @@
-const http = require('http');
-const WebSocket = require('ws');
+
+import WebSocket, { WebSocketServer } from 'ws';    
+import http from 'http';
+
 
 const PORT = process.env.WS_PORT || 3001;
 
@@ -37,7 +39,8 @@ const server = http.createServer((req, res) => {
   res.end();
 });
 
-const wss = new WebSocket.Server({ server });
+
+const wss = new WebSocketServer({ server });
 
 wss.on('connection', (socket) => {
   console.log('Client connected via WebSocket');

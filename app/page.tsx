@@ -214,7 +214,7 @@ export default function Home() {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <ConsumptionChart 
             data={historicalData}
-            title="📊 Consumo Histórico (24h)"
+            title="Consumo Histórico (24h)"
           />
           <PredictionChart 
             predictions={predictions}
@@ -238,10 +238,10 @@ export default function Home() {
 
         {/* Information Section */}
         <section className="surface-card-muted border surface-border rounded-lg p-8">
-          <h2 className="text-2xl font-bold text-surface-default mb-4">📡 Arquitectura del Sistema</h2>
+          <h2 className="text-2xl font-bold text-surface-default mb-4">Arquitectura del Sistema</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div className="surface-card p-4 rounded-lg border surface-border">
-              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">🔌 Hardware IoT</h3>
+              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">Hardware IoT</h3>
               <ul className="text-sm text-surface-muted space-y-1">
                 <li>• <span className="font-mono">ACS712</span> - Sensor de corriente</li>
                 <li>• <span className="font-mono">ESP32</span> - Controlador</li>
@@ -250,7 +250,7 @@ export default function Home() {
             </div>
 
             <div className="surface-card p-4 rounded-lg border surface-border">
-              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">🤖 Algoritmo IA</h3>
+              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">Algoritmo IA</h3>
               <ul className="text-sm text-surface-muted space-y-1">
                 <li>• <span className="font-mono">Regresión Lineal</span> (Mínimos Cuadrados)</li>
                 <li>• Parámetros: hora del día + consumo</li>
@@ -259,7 +259,7 @@ export default function Home() {
             </div>
 
             <div className="surface-card p-4 rounded-lg border surface-border">
-              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">💡 Aplicaciones</h3>
+              <h3 className="font-semibold text-blue-900 dark:text-blue-300 mb-2">Aplicaciones</h3>
               <ul className="text-sm text-surface-muted space-y-1">
                 <li>• Detectar picos de consumo</li>
                 <li>• Optimizar costos eléctricos</li>
@@ -270,7 +270,7 @@ export default function Home() {
 
           <div className="surface-card p-4 rounded-lg border surface-border">
             <p className="text-sm text-surface-muted leading-relaxed">
-              <span className="font-semibold">🎯 Flujo de Datos:</span> El sensor ACS712 mide la corriente en tiempo real → ESP32 procesa los datos → 
+              <span className="font-semibold">Flujo de Datos:</span> El sensor ACS712 mide la corriente en tiempo real → ESP32 procesa los datos → 
               se envían a través de WiFi → el modelo de regresión lineal analiza patrones → PowerTrack muestra predicciones y recomendaciones personalizadas.
             </p>
           </div>

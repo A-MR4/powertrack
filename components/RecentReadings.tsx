@@ -69,12 +69,6 @@ export function RecentReadings({ readings }: RecentReadingsProps) {
           </div>
         ))}
       </div>
-
-      <div className="mt-4 p-3 surface-card-muted border surface-border rounded-lg">
-        <p className="text-sm text-surface-default">
-          <span className="font-semibold">Info:</span> Estos datos se actualizan cada hora con lecturas reales del sensor ACS712 conectado al dispositivo IoT.
-        </p>
-      </div>
     </div>
   );
 }

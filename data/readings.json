@@ -8,7 +8,7 @@
   {
     "id": "r-2",
     "timestamp": "2026-05-16T01:00:00Z",
-    "consumption": 1.78,
+    "consumption": 9,
     "current": 7.74
   },
   {
@@ -284,7 +284,7 @@
   {
     "id": "r-48",
     "timestamp": "2026-05-17T23:00:00Z",
-    "consumption": 3.2,
+    "consumption": 9.1,
     "current": 13.91
   },
   {

@@ -89,7 +89,6 @@ export function PeakAlert({ peaks }: PeakAlertProps) {
 }
 
 interface SavingsRecommendation {
-  icon: string;
   title: string;
   description: string;
   priority: 'high' | 'medium' | 'low';
@@ -126,7 +125,6 @@ export function Recommendations({ recommendations }: RecommendationsProps) {
           className={`border rounded-lg p-4 ${priorityColors[rec.priority]}`}
         >
           <div className="flex items-start gap-3">
-            <div className="text-2xl">{rec.icon}</div>
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <h4 className={`font-semibold ${priorityTextColors[rec.priority]}`}>

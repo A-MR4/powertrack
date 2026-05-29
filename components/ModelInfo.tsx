@@ -15,8 +15,8 @@ const InfoIcon = ({ className }: { className?: string }) => (
 
 export function ModelInfo({ rSquared, model, sampleCount }: ModelInfoProps) {
   const accuracy = Math.round(rSquared * 100);
-  const qualityStr = accuracy > 0.9 ? 'Excelente' : accuracy > 0.75 ? 'Buena' : 'Regular';
-  const qualityColor = accuracy > 0.9 ? 'green' : accuracy > 0.75 ? 'amber' : 'orange';
+  const qualityStr = accuracy > 100 ? 'ma' : accuracy > 90 ? 'Excelente' : accuracy > 75 ? 'Buena' : 'Regular';
+  const qualityColor = accuracy > 90 ? 'green' : accuracy > 75? 'amber' : 'orange';
 
   return (
     <div className="surface-card p-6 rounded-lg border surface-border shadow-sm">
