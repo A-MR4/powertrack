@@ -256,7 +256,7 @@ void loop() {
 
   sendReading(current, power);
 
-  delay(3600000);
+  delay(5000);
 }
 ```
 ## 6. Testing and Validation
